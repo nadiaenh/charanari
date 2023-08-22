@@ -1,6 +1,6 @@
 # myGame
 
-Some info about my game, with a GIF.
+[link](https://supabase-game.vercel.app/)
 
 # Next steps
 
