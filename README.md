@@ -1,59 +1,56 @@
+# myGame 
 
-# Create T3 App
+Some info about my game, with a GIF.  
 
-This is a [T3 Stack](https://create.t3.gg/) project bootstrapped with `create-t3-app`.
+# To-do list
+- [ ] Upload images to Supabase (see **Setting Up the Supabase Client** & **Uploading an Image File to a Supabase Storage Bucket** [here](https://www.makeuseof.com/next-js-upload-images-supabase-storage-bucket/)).
+- [ ] Set up authentication (see how T3 Turbo Supabase repo implements auth).
 
-## Resources
+# How I built this
 
-[Create T3 app](https://create.t3.gg/)  
-[Prisma schema setup](https://www.prisma.io/docs/guides/database/supabase)  
-[Deploy T3 app to Vercel](https://create.t3.gg/en/deployment/vercel)  
+### App
 
-## Commands
+Created with [create-t3-app](https://create.t3.gg/) and deployed using [Vercel with T3](https://create.t3.gg/en/deployment/vercel).
 
-`npx prisma db push` after setting up my env variables and my Prisma schema  
-`npm run dev` to start the server 
+**Commands:**  
+`npm run dev` will start the server locally.  
+`git push origin main` will deploy to Vercel.
 
-## Database
+### Frontend
 
-All schemas are in `schema.prisma`  
-`npx prisma studio` to edit data in a nice UI (might need to run `npx prisma db push` first if schemas were updated).  
-`npx prisma format` to format the schema file.  
+Uses [Tailwind CSS with Next.js](https://tailwindcss.com/docs/guides/nextjs).  
 
-To upload images, check out **Setting Up the Supabase Client** & **Uploading an Image File to a Supabase Storage Bucket** [here](https://www.makeuseof.com/next-js-upload-images-supabase-storage-bucket/).
+**File structure:**
+- `./public` contains all the static files, e.g. images.
+- `./src/pages/index.tsx` is the homepage.
+- `./src/styles/globals.css` contains the Tailwind base stylesheets.
 
-## Backend
+### Backend
 
-It exists in the `src/server` folder.  
-`import { z } from "zod"` - zod is a library for data validation. You can validate data before it is sent to the database, e.g. `z.string().min(1).max(255)`.  
-`api/root.ts` defines the API endpoints, i.e. the functions that can be called from the frontend.  
-`api/trpc.ts` defines the context for the routers.  
+Uses [TypeScript](https://www.typescriptlang.org/) and [TRPC](https://trpc.io/).
 
-## Auth 
+**File structure:**
+- `./src/env.mjs` defines how to load the environment variables.
+- `./src/server/api/`
+  - `root.ts` defines what the available API endpoints are.
+  - `db.ts` defines the database connections.
+  - `trpc.ts` defines the context for the routers.
+  - `routers` defines the functions for each router (API endpoint). 
+    - Can use [zod](https://zod.dev/) for data validation on function inputs, e.g. `z.string().min(1).max(255)`.
 
-Look at how T3 Turbo Supabase repo implements auth.
+**Commands:**  
+`npm run dev` to start the server locally.
 
-## What's next? How do I make an app with this?
+### Database
 
-We try to keep this project as simple as possible, so you can start with just the scaffolding we set up for you, and add additional things later when they become necessary.
+Uses [Prisma with Supabase](https://www.prisma.io/docs/guides/database/supabase).
 
-If you are not familiar with the different technologies used in this project, please refer to the respective docs. If you still are in the wind, please join our [Discord](https://t3.gg/discord) and ask for help.
+**File structure:**  
+`./prisma/schema.prisma` contains all the database schemas.
 
-- [Next.js](https://nextjs.org)
-- [NextAuth.js](https://next-auth.js.org)
-- [Prisma](https://prisma.io)
-- [Tailwind CSS](https://tailwindcss.com)
-- [tRPC](https://trpc.io)
-
-## Learn More
-
-To learn more about the [T3 Stack](https://create.t3.gg/), take a look at the following resources:
-
-- [Documentation](https://create.t3.gg/)
-- [Learn the T3 Stack](https://create.t3.gg/en/faq#what-learning-resources-are-currently-available) — Check out these awesome tutorials
-
-You can check out the [create-t3-app GitHub repository](https://github.com/t3-oss/create-t3-app) — your feedback and contributions are welcome!
-
-## How do I deploy this?
-
-Follow our deployment guides for [Vercel](https://create.t3.gg/en/deployment/vercel), [Netlify](https://create.t3.gg/en/deployment/netlify) and [Docker](https://create.t3.gg/en/deployment/docker) for more information.
+**Commands:**  
+Environment variables and schemas need to be set up properly before starting to run commands.  
+  
+`npx prisma db push` to update database changes.  
+`npx prisma studio` to edit data in a nice UI.  
+`npx prisma format` to format the schema file.
