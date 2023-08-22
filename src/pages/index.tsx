@@ -1,5 +1,5 @@
-import Head from "next/head";
-import Link from "next/link";
+// import Head from "next/head";
+// import Link from "next/link";
 import { api } from "~/utils/api";
 import React, { useState } from "react";
 import { z } from "zod";
@@ -17,8 +17,7 @@ export default function Home() {
     race: "",
     class: "",
   });
-  const { mutate: createCharacter, isLoading: creationIsLoading } =
-    api.character.create.useMutation();
+  const { mutate: createCharacter } = api.character.create.useMutation();
   const {
     data: allCharacters,
     isLoading: getAllIsLoading,
@@ -52,7 +51,7 @@ export default function Home() {
    * This function is called when the user submits the form.
    * It will validate the character object and log the result.
    */
-  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault(); // stops the page from reloading by default
 
     const validationResult = characterSchema.safeParse(character);
@@ -60,7 +59,13 @@ export default function Home() {
     if (validationResult.success) {
       console.log("Form submitted:", character);
       createCharacter(character);
-      await refetch();
+      refetch()
+        .then(() => {
+          console.log("Refetch done");
+        })
+        .catch((err) => {
+          console.error("Refetch error:", err);
+        });
     } else {
       console.error("Validation error:", validationResult.error);
     }
