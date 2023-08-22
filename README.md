@@ -2,7 +2,12 @@
 
 Some info about my game, with a GIF.
 
-# To-do list
+# Next steps
+
+- [ ] Create Race etc. schemas and get form options from there
+- [ ] Update the UI with Tailwind components or ShadcnUI
+
+# Future work
 
 - [ ] Upload images to Supabase (see **Setting Up the Supabase Client** & **Uploading an Image File to a Supabase
   Storage Bucket** [here](https://www.makeuseof.com/next-js-upload-images-supabase-storage-bucket/)).
