@@ -3,7 +3,7 @@ import Link from "next/link";
 import { api } from "~/utils/api";
 
 export default function Home() {
-  const hello = api.example.hello.useQuery({ text: "from tRPC" });
+  const {data: characterData, isLoading: characterLoading} = api.character.getCharacters.useQuery();
 
   return (
     <>
@@ -42,7 +42,10 @@ export default function Home() {
             </Link>
           </div>
           <p className="text-2xl text-white">
-            {hello.data ? hello.data.greeting : "Loading tRPC query..."}
+            {
+              characterLoading ? 'Loading...' : 
+              <pre className="text-white">{JSON.stringify(characterData, null, 2)}</pre>
+            }
           </p>
         </div>
       </main>
