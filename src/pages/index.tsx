@@ -19,6 +19,12 @@ export default function Home() {
   });
   const { mutate: createCharacter, isLoading: creationIsLoading } =
     api.character.create.useMutation();
+  const {
+    data: allCharacters,
+    isLoading: getAllIsLoading,
+    refetch,
+    isRefetching,
+  } = api.character.getAll.useQuery();
 
   /*
    * This function is called whenever the user types in an input field.
@@ -46,7 +52,7 @@ export default function Home() {
    * This function is called when the user submits the form.
    * It will validate the character object and log the result.
    */
-  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault(); // stops the page from reloading by default
 
     const validationResult = characterSchema.safeParse(character);
@@ -54,6 +60,7 @@ export default function Home() {
     if (validationResult.success) {
       console.log("Form submitted:", character);
       createCharacter(character);
+      await refetch();
     } else {
       console.error("Validation error:", validationResult.error);
     }
@@ -96,6 +103,16 @@ export default function Home() {
         </div>
         <button type="submit">Create Character</button>
       </form>
+
+      <p className="text-black">
+        {getAllIsLoading || isRefetching ? (
+          "Loading..."
+        ) : (
+          <pre className="text-black">
+            {JSON.stringify(allCharacters, null, 2)}
+          </pre>
+        )}
+      </p>
     </Layout>
   );
 }
