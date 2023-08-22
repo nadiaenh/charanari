@@ -15,6 +15,8 @@
 
 # How I built this
 
+![diagram](https://github.com/nadiaenh/supabase-game/blob/main/public/components_diagram.png)
+
 ### App
 
 Created with [create-t3-app](https://create.t3.gg/) and deployed
