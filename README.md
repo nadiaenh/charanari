@@ -1,16 +1,19 @@
-# myGame 
+# myGame
 
-Some info about my game, with a GIF.  
+Some info about my game, with a GIF.
 
 # To-do list
-- [ ] Upload images to Supabase (see **Setting Up the Supabase Client** & **Uploading an Image File to a Supabase Storage Bucket** [here](https://www.makeuseof.com/next-js-upload-images-supabase-storage-bucket/)).
+
+- [ ] Upload images to Supabase (see **Setting Up the Supabase Client** & **Uploading an Image File to a Supabase
+  Storage Bucket** [here](https://www.makeuseof.com/next-js-upload-images-supabase-storage-bucket/)).
 - [ ] Set up authentication (see how T3 Turbo Supabase repo implements auth).
 
 # How I built this
 
 ### App
 
-Created with [create-t3-app](https://create.t3.gg/) and deployed using [Vercel with T3](https://create.t3.gg/en/deployment/vercel).
+Created with [create-t3-app](https://create.t3.gg/) and deployed
+using [Vercel with T3](https://create.t3.gg/en/deployment/vercel).
 
 **Commands:**  
 `npm run dev` will start the server locally.  
@@ -18,9 +21,11 @@ Created with [create-t3-app](https://create.t3.gg/) and deployed using [Vercel w
 
 ### Frontend
 
-Uses [Tailwind CSS with Next.js](https://tailwindcss.com/docs/guides/nextjs).  
+Uses [Tailwind CSS with Next.js](https://tailwindcss.com/docs/guides/nextjs) and [zod](https://zod.dev/) to validate
+inputs.
 
 **File structure:**
+
 - `./public` contains all the static files, e.g. images.
 - `./src/pages/index.tsx` is the homepage.
 - `./src/styles/globals.css` contains the Tailwind base stylesheets.
@@ -30,13 +35,13 @@ Uses [Tailwind CSS with Next.js](https://tailwindcss.com/docs/guides/nextjs).
 Uses [TypeScript](https://www.typescriptlang.org/) and [TRPC](https://trpc.io/).
 
 **File structure:**
+
 - `./src/env.mjs` defines how to load the environment variables.
 - `./src/server/api/`
-  - `root.ts` defines what the available API endpoints are.
-  - `db.ts` defines the database connections.
-  - `trpc.ts` defines the context for the routers.
-  - `routers` defines the functions for each router (API endpoint). 
-    - Can use [zod](https://zod.dev/) for data validation on function inputs, e.g. `z.string().min(1).max(255)`.
+    - `root.ts` defines what the available API endpoints are.
+    - `db.ts` defines the database connections.
+    - `trpc.ts` defines the context for the routers.
+    - `routers` defines the functions for each router (API endpoint).
 
 **Commands:**  
 `npm run dev` to start the server locally.
@@ -49,8 +54,8 @@ Uses [Prisma with Supabase](https://www.prisma.io/docs/guides/database/supabase)
 `./prisma/schema.prisma` contains all the database schemas.
 
 **Commands:**  
-Environment variables and schemas need to be set up properly before starting to run commands.  
-  
+Environment variables and schemas need to be set up properly before starting to run commands.
+
 `npx prisma db push` to update database changes.  
 `npx prisma studio` to edit data in a nice UI.  
 `npx prisma format` to format the schema file.

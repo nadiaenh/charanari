@@ -15,8 +15,16 @@ datasource db {
 model Character {
   id        String   @id @default(cuid())
   name      String
-  age       Int
-  traits    Trait?
+  race      String
+  class     String
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  Trait     Trait?
+}
+
+model RaceOptions {
+  id        String   @id @default(cuid())
+  name      String
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 }
