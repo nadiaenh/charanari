@@ -1,178 +1,120 @@
-// import Head from "next/head";
-// import Link from "next/link";
 import { api } from "~/utils/api";
 import React, { useState } from "react";
-import { z } from "zod";
 import Layout from "../components/Layout";
+import type { RouterInputs } from "../utils/api";
 
-const characterSchema = z.object({
-  name: z.string(),
-  race: z.string(),
-  class: z.string(),
-});
+// Define the character type based on the tRPC API definition
+type CharacterType = RouterInputs["character"]["create"];
 
 export default function Home() {
-  const [character, setCharacter] = useState({
-    name: "",
-    race: "",
-    class: "",
-  });
-  const { mutate: createCharacter } = api.character.create.useMutation();
-  const {
-    data: allCharacters,
-    isLoading: getAllIsLoading,
-    refetch,
-    isRefetching,
-  } = api.character.getAll.useQuery();
 
-  /*
-   * This function is called whenever the user types in an input field.
-   * It updates the state with the new value.
-   */
-  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    console.log("handleInputChange", e.target.name, e.target.value);
-    const { name, value } = e.target;
-    setCharacter((prevCharacter) => ({
-      ...prevCharacter,
-      [name]: value,
-    }));
-  };
+    // State to hold the character data for creating a new character
+    const [newCharacter, setNewCharacter] = useState<CharacterType>({
+        name: "",
+        raceName: ""
+    });
 
-  const handleSelectChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
-    console.log("handleSelectChange", e.target.name, e.target.value);
-    const { name, value } = e.target;
-    setCharacter((prevCharacter) => ({
-      ...prevCharacter,
-      [name]: value,
-    }));
-  };
+    // Access tRPC utilities from the context
+    const tRpcUtils = api.useContext();
 
-  /*
-   * This function is called when the user submits the form.
-   * It will validate the character object and log the result.
-   */
-  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault(); // stops the page from reloading by default
+    // Mutation for creating a new character
+    const { mutate: createCharacter } = api.character.create.useMutation({
+        onSuccess: () => {
+            // Invalidate the cache after creating a new character
+            void tRpcUtils.character.getAll.invalidate();
+        }
+    });
 
-    const validationResult = characterSchema.safeParse(character);
+    // Fetch all characters from the server
+    const {
+        data: allCharacters,
+        isLoading: isLoadingAllCharacters,
+    } = api.character.getAll.useQuery();
 
-    if (validationResult.success) {
-      console.log("Form submitted:", character);
-      createCharacter(character);
-      refetch()
-        .then(() => {
-          console.log("Refetch done");
-        })
-        .catch((err) => {
-          console.error("Refetch error:", err);
-        });
-    } else {
-      console.error("Validation error:", validationResult.error);
+    // Fetch all races from the server
+    const {
+        data: allRaces,
+        isLoading: isLoadingAllRaces
+    } = api.race.getAll.useQuery();
+
+    // Display loading state while fetching race data
+    if (isLoadingAllRaces || allRaces === undefined) {
+        return <>Page is Loading</>;
     }
-  };
 
-  return (
-    <Layout>
-      <form onSubmit={handleSubmit}>
-        <div>
-          <label>Name:</label>
-          <input
-            type="text"
-            name="name"
-            value={character.name}
-            onChange={handleInputChange}
-          />
-        </div>
-        <div>
-          <label>Race:</label>
-          <select
-            name="race"
-            value={character.race}
-            onChange={handleSelectChange}
-          >
-            <option value="">Select a race</option>
-            <option value="Human">Human</option>
-            <option value="Elf">Elf</option>
-            <option value="Dwarf">Dwarf</option>
-          </select>
-        </div>
+    // Handle input field changes
+    const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+        const { name, value } = e.target;
+        setNewCharacter((prevCharacter) => ({
+            ...prevCharacter,
+            [name]: value,
+        }));
+    };
 
-        <div>
-          <label>Class:</label>
-          <input
-            type="text"
-            name="class"
-            value={character.class}
-            onChange={handleInputChange}
-          />
-        </div>
-        <button type="submit">Create Character</button>
-      </form>
+    // Handle select field changes
+    const handleSelectChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
+        const { name, value } = e.target;
+        setNewCharacter((prevCharacter) => ({
+            ...prevCharacter,
+            [name]: value,
+        }));
+    };
 
-      <p className="text-black">
-        {getAllIsLoading || isRefetching ? (
-          "Loading..."
-        ) : (
-          <pre className="text-black">
-            {JSON.stringify(allCharacters, null, 2)}
-          </pre>
-        )}
-      </p>
-    </Layout>
-  );
+    // Handle form submission
+    const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+        e.preventDefault();
+        console.log("Form submitted:", newCharacter);
+        createCharacter(newCharacter);
+    };
+
+    return (
+        <Layout>
+            <form onSubmit={handleSubmit}>
+                <div>
+                    <label>Name:</label>
+                    <input
+                        type="text"
+                        name="name"
+                        value={newCharacter.name}
+                        onChange={handleInputChange}
+                    />
+                </div>
+                <div>
+                    <label>Race:</label>
+                    <select
+                        name="raceName"
+                        value={newCharacter.raceName}
+                        onChange={handleSelectChange}
+                        disabled={isLoadingAllRaces}
+                    >
+                        <option value="" disabled></option>
+                        {allRaces.map((race) => (
+                            <option key={race.name} value={race.name}>
+                                {race.name}
+                            </option>
+                        ))}
+                    </select>
+                </div>
+
+                {/* Disable the button if input fields are empty */}
+                <button
+                    type="submit"
+                    disabled={newCharacter.name === "" || newCharacter.raceName === ""}
+                >
+                    Create Character
+                </button>
+            </form>
+
+            <p className="text-black">
+                {/* Display loading state or character data */}
+                {isLoadingAllCharacters ? (
+                    "Loading..."
+                ) : (
+                    <pre className="text-black">
+                        {JSON.stringify(allCharacters, null, 2)}
+                    </pre>
+                )}
+            </p>
+        </Layout>
+    );
 }
-
-// export default function Home() {
-//   const { data: characterData, isLoading: characterLoading } =
-//     api.character.getAll.useQuery();
-//
-//   return (
-//     <>
-//       <Head>
-//         <title>Create T3 App</title>
-//         <meta name="description" content="Generated by create-t3-app" />
-//         <link rel="icon" href="/favicon.ico" />
-//       </Head>
-//       <main className="flex min-h-screen flex-col items-center justify-center bg-gradient-to-b from-[#2e026d] to-[#15162c]">
-//         <div className="container flex flex-col items-center justify-center gap-12 px-4 py-16 ">
-//           <h1 className="text-5xl font-extrabold tracking-tight text-white sm:text-[5rem]">
-//             Create <span className="text-[hsl(280,100%,70%)]">T3</span> App
-//           </h1>
-//           <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 md:gap-8">
-//             <Link
-//               className="flex max-w-xs flex-col gap-4 rounded-xl bg-white/10 p-4 text-white hover:bg-white/20"
-//               href="https://create.t3.gg/en/usage/first-steps"
-//               target="_blank"
-//             >
-//               <h3 className="text-2xl font-bold">First Steps →</h3>
-//               <div className="text-lg">
-//                 Just the basics - Everything you need to know to set up your
-//                 database and authentication.
-//               </div>
-//             </Link>
-//             <Link
-//               className="flex max-w-xs flex-col gap-4 rounded-xl bg-white/10 p-4 text-white hover:bg-white/20"
-//               href="https://create.t3.gg/en/introduction"
-//               target="_blank"
-//             >
-//               <h3 className="text-2xl font-bold">Documentation →</h3>
-//               <div className="text-lg">
-//                 Learn more about Create T3 App, the libraries it uses, and how
-//                 to deploy it.
-//               </div>
-//             </Link>
-//           </div>
-//           <p className="text-2xl text-white">
-//             {characterLoading ? (
-//               "Loading..."
-//             ) : (
-//               <pre className="text-white">
-//                 {JSON.stringify(characterData, null, 2)}
-//               </pre>
-//             )}
-//           </p>
-//         </div>
-//       </main>
-//     </>
-//   );
-// }

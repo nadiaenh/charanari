@@ -15,26 +15,16 @@ datasource db {
 model Character {
   id        String   @id @default(cuid())
   name      String
-  race      String
-  class     String
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
-  Trait     Trait?
+  race      Race     @relation(fields: [raceName], references: [name])
+  raceName  String
 }
 
-model RaceOptions {
-  id        String   @id @default(cuid())
-  name      String
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
-}
-
-model Trait {
-  id          String    @id @default(cuid())
-  name        String
-  description String
-  character   Character @relation(fields: [characterId], references: [id])
-  characterId String    @unique
-  createdAt   DateTime  @default(now())
-  updatedAt   DateTime  @updatedAt
+model Race {
+  id         String      @id @default(cuid())
+  name       String      @unique
+  createdAt  DateTime    @default(now())
+  updatedAt  DateTime    @updatedAt
+  characters Character[]
 }
