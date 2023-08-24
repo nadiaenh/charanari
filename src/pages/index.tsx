@@ -4,18 +4,38 @@ import {api} from "~/utils/api";
 import React from "react";
 import Layout from "../components/Layout";
 import {CharacterForm} from "~/components/CharacterForm";
+import {characterRouter} from "~/server/api/routers/character";
 
 export default function Home() {
 
-    const {data: allRaces, isLoading: allRacesIsLoading} = api.character.getAllRaces.useQuery();
+    // Create a new character
+    const {mutate: createCharacter} = api.character.createCharacter.useMutation();
 
-    if (allRacesIsLoading || allRaces === undefined) {
+    // Fetch necessary race data from database
+    const {
+        data: getAllRaces,
+        isLoading: getAllRacesIsLoading
+    } = api.character.getAllRaces.useQuery();
+
+    if (getAllRacesIsLoading || getAllRaces === undefined) {
         return <>Page is Loading</>;
     }
 
+    // Form submission handler
+    const onSubmit = (data) => {
+        console.log("Submitted data:", data);
+
+        const response = createCharacter({
+            name: data.characterName,
+            raceName: data.raceName,
+        });
+
+        console.log("Character created!", response)
+    };
+
     return (
         <Layout>
-            <CharacterForm allRaces={allRaces}/>
+            <CharacterForm allRaces={getAllRaces} onSubmit={onSubmit}/>
 
             {/* OLD CODE TO DISPLAY ALL EXISTING CHARACTERS IN THE DATABASE */}
             {/*<p className="text-black">*/}

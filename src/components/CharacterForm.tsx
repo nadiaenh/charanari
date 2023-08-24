@@ -35,15 +35,11 @@ const FormSchema = z.object({
         }),
 })
 
-export function CharacterForm({allRaces}) {
+export function CharacterForm({allRaces, onSubmit}) {
 
     const form = useForm<z.infer<typeof FormSchema>>({
         resolver: zodResolver(FormSchema),
     })
-
-    function onSubmit(data) {
-        console.log("Submitted data:", data);
-    }
 
     function raceDropdown() {
         return allRaces.map((race) => (

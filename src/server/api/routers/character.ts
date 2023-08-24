@@ -29,6 +29,12 @@ export const characterRouter = createTRPCRouter({
 
     // Create a new character
     createCharacter: publicProcedure
+        .input(
+            z.object({
+                name: z.string(),
+                raceName: z.string(),
+            })
+        )
         .mutation(({ctx, input}) => {
             return ctx.prisma.character.create({
                 data: {
