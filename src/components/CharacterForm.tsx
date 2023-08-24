@@ -23,9 +23,12 @@ import {
 } from "~/components/ui/select"
 
 const FormSchema = z.object({
-    characterName: z.string({
-        required_error: "Please enter a name for your character.",
-    }),
+    characterName: z
+        .string({required_error: "Please enter a name for your character.",})
+        .min(3, {message: "Name must be at least 3 characters long."})
+        .max(20, {message: "Name must be at most 20 characters long."})
+        .regex(/^[a-zA-Z]+$/, {message: "Name must only contain alphabet characters."}),
+
     raceName: z
         .string({
             required_error: "Please select a race from the dropdown menu.",
@@ -60,11 +63,8 @@ export function CharacterForm({allRaces}) {
                     name="characterName"
                     render={({field}) => (
                         <FormItem>
-                            <FormLabel>Name</FormLabel>
-                            <Input {...field} placeholder="Enter a name for your character"/>
-                            <FormDescription>
-                                Description of this name field here.
-                            </FormDescription>
+                            <FormLabel>Character name</FormLabel>
+                            <Input {...field} placeholder="Pick something cool like Michaelius or Aphrodite"/>
                             <FormMessage/>
                         </FormItem>
                     )}
@@ -76,20 +76,17 @@ export function CharacterForm({allRaces}) {
                     name="raceName"
                     render={({field}) => (
                         <FormItem>
-                            <FormLabel>Race</FormLabel>
+                            <FormLabel>Character race</FormLabel>
                             <Select onValueChange={field.onChange} defaultValue={field.value}>
                                 <FormControl>
                                     <SelectTrigger>
-                                        <SelectValue placeholder="Select a race for your character"/>
+                                        <SelectValue placeholder="Human"/>
                                     </SelectTrigger>
                                 </FormControl>
                                 <SelectContent>
                                     {raceDropdown()}
                                 </SelectContent>
                             </Select>
-                            <FormDescription>
-                                You can change your race later.
-                            </FormDescription>
                             <FormMessage/>
                         </FormItem>
                     )}

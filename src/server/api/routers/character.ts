@@ -3,7 +3,7 @@ import {createTRPCRouter, publicProcedure} from "~/server/api/trpc";
 
 export const characterRouter = createTRPCRouter({
     // Get a character by characterId
-    get: publicProcedure
+    getCharacterById: publicProcedure
         .input(
             z.object({
                 characterId: z.string(),
@@ -17,18 +17,18 @@ export const characterRouter = createTRPCRouter({
             });
         }),
 
-    // Get all characters in the database
-    getAll: publicProcedure.query(({ctx}) => {
+    // Get all characters that exist in the database
+    getAllCharacters: publicProcedure.query(({ctx}) => {
         return ctx.prisma.character.findMany();
     }),
 
-    // Get all races in the table
+    // Get all possible race options in the database
     getAllRaces: publicProcedure.query(({ctx}) => {
         return ctx.prisma.race.findMany();
     }),
 
     // Create a new character
-    create: publicProcedure
+    createCharacter: publicProcedure
         .mutation(({ctx, input}) => {
             return ctx.prisma.character.create({
                 data: {
