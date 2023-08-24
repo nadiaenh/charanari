@@ -29,7 +29,7 @@ export default function Home() {
     const onSubmit = (data) => {
         console.log("Submitted data:", data);
         createCharacter({
-            name: data.characterName,
+            characterName: data.characterName,
             raceName: data.raceName,
         });
         console.log("Created character:", createdCharacterData);
@@ -47,7 +47,7 @@ export default function Home() {
                     <br/>
                     ID: {createdCharacterData.id}
                     <br/>
-                    Name: {createdCharacterData.name}
+                    Name: {createdCharacterData.characterName}
                     <br/>
                     Race: {createdCharacterData.raceName}
                 </p>

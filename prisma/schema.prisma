@@ -13,17 +13,17 @@ datasource db {
 }
 
 model Character {
-  id        String   @id @default(cuid())
-  name      String
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
-  race      Race     @relation(fields: [raceName], references: [name])
-  raceName  String
+  id            String   @id @default(cuid())
+  characterName String
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @updatedAt
+  raceName      String
+  race          Race     @relation(fields: [raceName], references: [raceName])
 }
 
 model Race {
   id         String      @id @default(cuid())
-  name       String      @unique
+  raceName   String      @unique
   createdAt  DateTime    @default(now())
   updatedAt  DateTime    @updatedAt
   characters Character[]
