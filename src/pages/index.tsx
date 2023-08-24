@@ -4,7 +4,6 @@ import {api} from "~/utils/api";
 import React from "react";
 import Layout from "../components/Layout";
 import {CharacterForm} from "~/components/CharacterForm";
-import {characterRouter} from "~/server/api/routers/character";
 
 export default function Home() {
 
@@ -25,12 +24,12 @@ export default function Home() {
     const onSubmit = (data) => {
         console.log("Submitted data:", data);
 
-        const response = createCharacter({
+        createCharacter({
             name: data.characterName,
             raceName: data.raceName,
         });
 
-        console.log("Character created!", response)
+        console.log("Character created!")
     };
 
     return (

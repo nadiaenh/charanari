@@ -1,26 +1,25 @@
 "use client"
 
-import {zodResolver} from "@hookform/resolvers/zod"
-import {useForm} from "react-hook-form"
-import * as z from "zod"
+import {zodResolver} from "@hookform/resolvers/zod";
+import {useForm} from "react-hook-form";
+import * as z from "zod";
 import {Input} from "~/components/ui/input";
-import {Button} from "~/components/ui/button"
+import {Button} from "~/components/ui/button";
 import {
     Form,
     FormControl,
-    FormDescription,
     FormField,
     FormItem,
     FormLabel,
     FormMessage,
-} from "~/components/ui/form"
+} from "~/components/ui/form";
 import {
     Select,
     SelectContent,
     SelectItem,
     SelectTrigger,
     SelectValue,
-} from "~/components/ui/select"
+} from "~/components/ui/select";
 
 const FormSchema = z.object({
     characterName: z
@@ -49,6 +48,7 @@ export function CharacterForm({allRaces, onSubmit}) {
         ))
     }
 
+    // noinspection TypeScriptValidateTypes
     return (
         <Form {...form}>
             <form onSubmit={form.handleSubmit(onSubmit)} className="w-2/3 space-y-6">
@@ -76,7 +76,7 @@ export function CharacterForm({allRaces, onSubmit}) {
                             <Select onValueChange={field.onChange} defaultValue={field.value}>
                                 <FormControl>
                                     <SelectTrigger>
-                                        <SelectValue placeholder="Human"/>
+                                        <SelectValue placeholder=" "/>
                                     </SelectTrigger>
                                 </FormControl>
                                 <SelectContent>
