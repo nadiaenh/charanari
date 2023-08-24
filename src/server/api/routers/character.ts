@@ -40,7 +40,7 @@ export const characterRouter = createTRPCRouter({
         .mutation(({ctx, input}) => {
             return ctx.prisma.character.create({
                 data: {
-                    name: input.characterName,
+                    characterName: input.characterName,
                     raceName: input.raceName,
                 },
             });

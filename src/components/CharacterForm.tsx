@@ -42,8 +42,8 @@ export function CharacterForm({allRaces, onSubmit}) {
 
     function raceDropdown() {
         return allRaces.map((race) => (
-            <SelectItem key={race.id} value={race.name}>
-                {race.name}
+            <SelectItem key={race.id} value={race.raceName}>
+                {race.raceName}
             </SelectItem>
         ))
     }

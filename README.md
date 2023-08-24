@@ -51,7 +51,7 @@ Uses [TypeScript](https://www.typescriptlang.org/) and [tRPC](https://trpc.io/).
 
 - `./src/env.mjs` defines how to load the environment variables.
 - `./src/server/api/`
-    - `trpc.ts` initilaizes tRPC and lets you create routers and procedures.
+    - `trpc.ts` initializes tRPC and lets you create routers and procedures.
     - `root.ts` imports and combines all the different routers into the main App router.
     - `db.ts` creates and exports the Prisma client so it can be used in the App.
     - `routers/` has files (routers) where you can define the functions that can be used for each router.
