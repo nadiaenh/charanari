@@ -22,6 +22,11 @@ export const characterRouter = createTRPCRouter({
         return ctx.prisma.character.findMany();
     }),
 
+    // Get all races in the table
+    getAllRaces: publicProcedure.query(({ctx}) => {
+        return ctx.prisma.race.findMany();
+    }),
+
     // Create a new character
     create: publicProcedure
         .mutation(({ctx, input}) => {

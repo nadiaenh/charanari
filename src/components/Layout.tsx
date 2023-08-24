@@ -10,7 +10,9 @@ const Layout: React.FC<LayoutProps> = ({children}) => {
             <header>
                 <h1>Create Character Screen</h1>
             </header>
-            <main>{children}</main>
+            <main className={"flex justify-center items-center h-screen"}>
+                {children}
+            </main>
             <footer>
                 <p>© {new Date().getFullYear()} Nadia Enhaili</p>
             </footer>

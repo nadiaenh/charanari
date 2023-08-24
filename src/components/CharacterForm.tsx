@@ -1,114 +1,102 @@
-import React from "react";
-import {zodResolver} from "@hookform/resolvers/zod";
-import * as z from "zod";
-import {useForm, Controller} from "react-hook-form";
-import {Button} from "~/components/ui/button";
+"use client"
+
+import {zodResolver} from "@hookform/resolvers/zod"
+import {useForm} from "react-hook-form"
+import * as z from "zod"
+import {Input} from "~/components/ui/input";
+import {Button} from "~/components/ui/button"
 import {
     Form,
     FormControl,
+    FormDescription,
+    FormField,
     FormItem,
     FormLabel,
-} from "~/components/ui/form";
+    FormMessage,
+} from "~/components/ui/form"
 import {
     Select,
     SelectContent,
     SelectItem,
     SelectTrigger,
     SelectValue,
-} from "~/components/ui/select";
-import {Input} from "~/components/ui/input";
+} from "~/components/ui/select"
 
-const characterFormSchema = z.object({
-    name: z
-        .string()
-        .min(2, "Name should be at least 2 characters long.")
-        .max(50)
-        .nonempty(),
-    raceName: z.string().nonempty("Please select a race from the dropdown menu."),
-});
+const FormSchema = z.object({
+    characterName: z.string({
+        required_error: "Please enter a name for your character.",
+    }),
+    raceName: z
+        .string({
+            required_error: "Please select a race from the dropdown menu.",
+        }),
+})
 
 export function CharacterForm({allRaces}) {
-    const formMethods = useForm({
-        resolver: zodResolver(characterFormSchema),
-        defaultValues: {
-            name: "",
-            raceName: "",
-        },
-    });
 
-    const onSubmit = (data) => {
+    const form = useForm<z.infer<typeof FormSchema>>({
+        resolver: zodResolver(FormSchema),
+    })
+
+    function onSubmit(data) {
         console.log("Submitted data:", data);
-    };
+    }
+
+    function raceDropdown() {
+        return allRaces.map((race) => (
+            <SelectItem key={race.id} value={race.name}>
+                {race.name}
+            </SelectItem>
+        ))
+    }
 
     return (
-        <div className="flex justify-center items-center h-screen">
-            <Form {...formMethods}>
-                <form
-                    onSubmit={formMethods.handleSubmit(onSubmit)}
-                    className="space-y-8"
-                >
-                    <FormField
-                        name="name"
-                        label="Character Name"
-                        control={formMethods.control}
-                        render={({field}) => <Input {...field} />}
-                    />
-                    <FormField
-                        name="raceName"
-                        label="Character Race"
-                        control={formMethods.control}
-                        render={({field}) => (
-                            <Controller
-                                name="raceName"
-                                control={formMethods.control}
-                                render={({field: raceField}) => (
-                                    <RaceSelect
-                                        races={allRaces}
-                                        field={raceField}
-                                    />
-                                )}
-                            />
-                        )}
-                    />
-                    <Button type="submit">Create Character</Button>
-                </form>
-            </Form>
-        </div>
-    );
-}
+        <Form {...form}>
+            <form onSubmit={form.handleSubmit(onSubmit)} className="w-2/3 space-y-6">
 
-export function FormField({name, label, control, render}) {
-    return (
-        <FormItem>
-            <FormLabel>{label}</FormLabel>
-            <FormControl>
-                <Controller
-                    name={name}
-                    control={control}
-                    render={render}
+                {/* NAME INPUT FIELD */}
+                <FormField
+                    control={form.control}
+                    name="characterName"
+                    render={({field}) => (
+                        <FormItem>
+                            <FormLabel>Name</FormLabel>
+                            <Input {...field} placeholder="Enter a name for your character"/>
+                            <FormDescription>
+                                Description of this name field here.
+                            </FormDescription>
+                            <FormMessage/>
+                        </FormItem>
+                    )}
                 />
-            </FormControl>
-        </FormItem>
-    );
-}
 
-export function RaceSelect({races, field}) {
-    return (
-        <Select>
-            <SelectTrigger className="w-[180px]">
-                <SelectValue placeholder="Select a race"/>
-            </SelectTrigger>
-            <SelectContent>
-                {races.map((race) => (
-                    <SelectItem
-                        key={race.name}
-                        value={race.name}
-                        onSelect={() => field.onChange(race.name)}
-                    >
-                        {race.name}
-                    </SelectItem>
-                ))}
-            </SelectContent>
-        </Select>
-    );
+                {/* RACE SELECTION FIELD */}
+                <FormField
+                    control={form.control}
+                    name="raceName"
+                    render={({field}) => (
+                        <FormItem>
+                            <FormLabel>Race</FormLabel>
+                            <Select onValueChange={field.onChange} defaultValue={field.value}>
+                                <FormControl>
+                                    <SelectTrigger>
+                                        <SelectValue placeholder="Select a race for your character"/>
+                                    </SelectTrigger>
+                                </FormControl>
+                                <SelectContent>
+                                    {raceDropdown()}
+                                </SelectContent>
+                            </Select>
+                            <FormDescription>
+                                You can change your race later.
+                            </FormDescription>
+                            <FormMessage/>
+                        </FormItem>
+                    )}
+                />
+
+                <Button type="submit">Submit</Button>
+            </form>
+        </Form>
+    )
 }

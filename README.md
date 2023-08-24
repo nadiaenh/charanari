@@ -5,7 +5,9 @@
 ## Next steps
 
 - [X] Create Race etc. schemas and get form options from there
-- [ ] Update the UI with Tailwind components or ShadcnUI
+- [X] Update the UI with Tailwind components or ShadcnUI
+- [X] Make SelectRace actually update the state - see how test.tsx implements SubmitButton
+- [ ] Make SubmitForm open a popup to create a character
 
 ## Future work
 

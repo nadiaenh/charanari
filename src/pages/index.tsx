@@ -1,15 +1,13 @@
-import {api} from "~/utils/api";
-import React, {useState} from "react";
-import Layout from "../components/Layout";
-import type {RouterInputs} from "~/utils/api";
-import {CharacterForm} from "~/components/CharacterForm";
+"use client"
 
-// Define the character type based on the tRPC API definition
-type CharacterType = RouterInputs["character"]["create"];
+import {api} from "~/utils/api";
+import React from "react";
+import Layout from "../components/Layout";
+import {CharacterForm} from "~/components/CharacterForm";
 
 export default function Home() {
 
-    const {data: allRaces, isLoading: allRacesIsLoading} = api.race.getAll.useQuery();
+    const {data: allRaces, isLoading: allRacesIsLoading} = api.character.getAllRaces.useQuery();
 
     if (allRacesIsLoading || allRaces === undefined) {
         return <>Page is Loading</>;

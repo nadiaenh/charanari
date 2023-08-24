@@ -1,6 +1,5 @@
-import { characterRouter } from "~/server/api/routers/character";
-import { createTRPCRouter } from "~/server/api/trpc";
-import { raceRouter } from "./routers/race";
+import {characterRouter} from "~/server/api/routers/character";
+import {createTRPCRouter} from "~/server/api/trpc";
 
 /**
  * This is the primary router for your server.
@@ -8,8 +7,7 @@ import { raceRouter } from "./routers/race";
  * All routers added in /api/routers should be manually added here.
  */
 export const appRouter = createTRPCRouter({
-  character: characterRouter,
-  race: raceRouter,
+    character: characterRouter
 });
 
 // export type definition of API
