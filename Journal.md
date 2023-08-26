@@ -8,6 +8,7 @@
 - ~~[ ] Make SubmitForm open a popup to create a character~~
 - [ ] Find a cute [free loading animation gif](https://lottiefiles.com/featured) to use as my loading screen - put it
   in <Head> as preloaded for NextJS
+- [X] Set up basic OpenAI image generation
 
 ## Future work
 

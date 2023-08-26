@@ -45,4 +45,18 @@ export const characterRouter = createTRPCRouter({
                 },
             });
         }),
+
+    // Generate a character image using OpenAI
+    generateImage: publicProcedure
+        .input(z.object({
+            prompt: z.string(),
+        }))
+        .mutation(async ({ctx, input}) => {
+            console.log("Received input:", input);
+
+            const response = await ctx.openai.images.generate({prompt: input.prompt});
+            console.log("generateImage response:", response);
+
+            return response.data[0].url;
+        })
 });

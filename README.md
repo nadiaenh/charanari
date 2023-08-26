@@ -57,4 +57,8 @@ Environment variables and schemas need to be set up properly before starting to 
 `npx prisma studio` to edit data in a nice UI.  
 `npm run db` whenever I update database schema.  
 `npx prisma db seed` to populate the tables with data from `./prisma/seed.ts` -- **this will delete all rows currently
-in all tables!!**  
+in all tables!!**
+
+### OpenAI
+
+I set the hard limit at 20$ (all requests will be rejected) and soft limit at 10$ (notification email).

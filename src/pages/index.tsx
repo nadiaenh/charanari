@@ -21,8 +21,19 @@ export default function Home() {
         isLoading: getAllRacesIsLoading
     } = api.character.getAllRaces.useQuery();
 
+    // Generate character image using OpenAI
+    const {
+        mutate: generateCharacterImage,
+        data: generatedImageURL,
+        isSuccess: generateCharacterImageIsSuccess,
+    } = api.character.generateImage.useMutation();
+
     if (getAllRacesIsLoading || getAllRaces === undefined) {
-        return <>Welcome, page is loading...</>;
+        return (
+            <Layout>
+                <>Welcome, page is loading...</>
+            </Layout>
+        )
     }
 
     // Form submission handler
@@ -32,14 +43,22 @@ export default function Home() {
             characterName: data.characterName,
             raceName: data.raceName,
         });
+        generateCharacterImage({
+            prompt: "A fantasy character named " + data.characterName + " who is of the " + data.raceName + " race, drawn in the style of Genshin Impact."
+        });
         console.log("Created character:", createdCharacterData);
+        console.log("Generated image:", generatedImageURL);
     };
 
     if (createCharacterIsLoading) {
-        return <>Character creation in progress...</>;
+        return (
+            <Layout>
+                <>Character creation in progress...</>
+            </Layout>
+        )
     }
 
-    if (createCharacterIsSuccess) {
+    if (createCharacterIsSuccess && generateCharacterImageIsSuccess) {
         return (
             <Layout>
                 <p>
@@ -50,6 +69,8 @@ export default function Home() {
                     Name: {createdCharacterData.characterName}
                     <br/>
                     Race: {createdCharacterData.raceName}
+                    <br/>
+                    <img src={generatedImageURL} alt="Generated character image" width={150} height={150}/>
                 </p>
             </Layout>
         )
