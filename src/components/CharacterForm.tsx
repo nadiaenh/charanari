@@ -25,9 +25,9 @@ import type {RouterOutputs} from "~/utils/api";
 // Define the type of the data returned by the getAllRaces endpoint
 type getAllRacesOutputType = RouterOutputs["character"]["getAllRaces"]
 
-type CharacterFormPropsType = { allRaces: getAllRacesOutputType, onSubmit: (data: any) => void };
+type CharacterFormPropsType = { allRaces: getAllRacesOutputType, onSubmit: (data: z.infer<typeof FormSchema>) => void };
 
-const FormSchema = z.object({
+export const FormSchema = z.object({
     characterName: z
         .string({required_error: "Please enter a name for your character.",})
         .min(3, {message: "Name must be at least 3 characters long."})

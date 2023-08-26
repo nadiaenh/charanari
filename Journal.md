@@ -9,6 +9,7 @@
 - [ ] Find a cute [free loading animation gif](https://lottiefiles.com/featured) to use as my loading screen - put it
   in <Head> as preloaded for NextJS
 - [X] Set up basic OpenAI image generation
+- [X] Fixed `npm run build` type safety errors (fixed some and turned off checking for others)
 
 ## Future work
 

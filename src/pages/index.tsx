@@ -3,7 +3,8 @@
 import {api} from "~/utils/api";
 import React from "react";
 import Layout from "../components/Layout";
-import {CharacterForm} from "~/components/CharacterForm";
+import {CharacterForm, type FormSchema} from "~/components/CharacterForm";
+import * as z from "zod";
 
 export default function Home() {
 
@@ -37,7 +38,7 @@ export default function Home() {
     }
 
     // Form submission handler
-    const onSubmit = (data: any) => {
+    const onSubmit = (data: z.infer<typeof FormSchema>) => {
         console.log("Submitted data:", data);
         createCharacter({
             characterName: data.characterName,
