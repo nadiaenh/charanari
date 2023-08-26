@@ -17,7 +17,6 @@ async function populateRaces() {
     const races = [
         "Elf",
         "Mermaid",
-        "Succubus",
         "Human",
         "Centaur",
         "Sorcerer",
@@ -42,8 +41,8 @@ async function populateCharacters() {
     const data: { characterName: string, raceName: string }[] = [];
     data.push({characterName: "Alden", raceName: "Elf"});
     data.push({characterName: "Aldis", raceName: "Mermaid"});
-    data.push({characterName: "Aldrich", raceName: "Succubus"});
-    
+    data.push({characterName: "Aldrich", raceName: "Sorcerer"});
+
     await prisma.character.createMany({
         data: data,
     });

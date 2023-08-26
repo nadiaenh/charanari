@@ -45,7 +45,7 @@ export default function Home() {
             raceName: data.raceName,
         });
         generateCharacterImage({
-            prompt: "A fantasy character named " + data.characterName + " who is of the " + data.raceName + " race, drawn in the style of Genshin Impact."
+            prompt: "A fictional character named " + data.characterName + " who is of the " + data.raceName + " race."
         });
         console.log("Created character:", createdCharacterData);
         console.log("Generated image:", generatedImageURL);
@@ -54,7 +54,7 @@ export default function Home() {
     if (createCharacterIsLoading) {
         return (
             <Layout>
-                <>Character creation in progress...</>
+                <>Character creation in progress... You just cost me 0.02$ in AI generation fee!</>
             </Layout>
         )
     }
@@ -71,7 +71,7 @@ export default function Home() {
                     <br/>
                     Race: {createdCharacterData.raceName}
                     <br/>
-                    <img src={generatedImageURL} alt="Generated character image" width={150} height={150}/>
+                    <img src={generatedImageURL} alt="Generated character image" width={300} height={300}/>
                 </p>
             </Layout>
         )
