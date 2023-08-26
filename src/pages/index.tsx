@@ -37,7 +37,7 @@ export default function Home() {
     }
 
     // Form submission handler
-    const onSubmit = (data) => {
+    const onSubmit = (data: any) => {
         console.log("Submitted data:", data);
         createCharacter({
             characterName: data.characterName,

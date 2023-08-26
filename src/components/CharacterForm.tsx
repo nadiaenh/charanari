@@ -20,6 +20,12 @@ import {
     SelectTrigger,
     SelectValue,
 } from "~/components/ui/select";
+import type {RouterOutputs} from "~/utils/api";
+
+// Define the type of the data returned by the getAllRaces endpoint
+type getAllRacesOutputType = RouterOutputs["character"]["getAllRaces"]
+
+type CharacterFormPropsType = { allRaces: getAllRacesOutputType, onSubmit: (data: any) => void };
 
 const FormSchema = z.object({
     characterName: z
@@ -34,8 +40,9 @@ const FormSchema = z.object({
         }),
 })
 
-export function CharacterForm({allRaces, onSubmit}) {
+export function CharacterForm(props: CharacterFormPropsType) {
 
+    const {allRaces, onSubmit} = props
     const form = useForm<z.infer<typeof FormSchema>>({
         resolver: zodResolver(FormSchema),
     })

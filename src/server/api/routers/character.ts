@@ -2,6 +2,7 @@
 
 import {z} from "zod";
 import {createTRPCRouter, publicProcedure} from "~/server/api/trpc";
+import {ImagesResponse} from "openai/resources";
 
 export const characterRouter = createTRPCRouter({
     // Get a character by characterId
@@ -54,9 +55,9 @@ export const characterRouter = createTRPCRouter({
         .mutation(async ({ctx, input}) => {
             console.log("Received input:", input);
 
-            const response = await ctx.openai.images.generate({prompt: input.prompt});
+            const response: ImagesResponse = await ctx.openai.images.generate({prompt: input.prompt});
             console.log("generateImage response:", response);
 
-            return response.data[0].url;
+            return response?.data[0]?.url ?? "https://media2.giphy.com/media/v1.Y2lkPTc5MGI3NjExYzJld2x3cmo5MnZuZzQ5am94bjIxbGVwNDRmc3drOXFtM3g3dXJvYyZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9cw/95dDwxcwwwQ78XXQIN/giphy.gif";
         })
 });
