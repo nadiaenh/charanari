@@ -1,8 +1,8 @@
-import {createClient} from '@supabase/supabase-js';
+import {createClient, type SupabaseClient} from '@supabase/supabase-js';
 import {env} from "~/env.mjs";
 
 const globalForSupabase = globalThis as unknown as {
-    supabase: createClient | undefined;
+    supabase: SupabaseClient | undefined;
 };
 
 export const supabase =

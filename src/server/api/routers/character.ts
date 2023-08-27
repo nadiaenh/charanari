@@ -2,9 +2,9 @@
 
 import {z} from "zod";
 import {createTRPCRouter, publicProcedure} from "~/server/api/trpc";
-import {ImagesResponse} from "openai/resources";
+import {type ImagesResponse} from "openai/resources";
 import {supabase} from "~/server/supabase";
-import axios from "axios";
+import axios, {type AxiosResponse} from "axios";
 
 export const characterRouter = createTRPCRouter({
     // Get a character by characterId
@@ -64,9 +64,10 @@ export const characterRouter = createTRPCRouter({
             console.log("Attempting to save character avatar:", imageURL);
 
             // Download image from URL
-            const axiosResponse = await axios.get(imageURL, {responseType: 'arraybuffer'});
+            const axiosResponse: AxiosResponse<ArrayBuffer> = await axios.get<ArrayBuffer>(imageURL, {responseType: 'arraybuffer'});
             console.log("axios.get(imageURL) response:", axiosResponse);
-            const imageBody = Buffer.from(axiosResponse.data);
+            const axiosResponseData: ArrayBuffer = axiosResponse.data ?? {};
+            const imageBody = Buffer.from(axiosResponseData);
             console.log("Buffer.from(axios.data) response:", imageBody);
 
             // Upload image to Supabase storage

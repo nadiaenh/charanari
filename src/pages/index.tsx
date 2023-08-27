@@ -4,7 +4,7 @@ import {api} from "~/utils/api";
 import React from "react";
 import Layout from "../components/Layout";
 import {CharacterForm, type FormSchema} from "~/components/CharacterForm";
-import * as z from "zod";
+import type * as z from "zod";
 
 export default function Home() {
 
