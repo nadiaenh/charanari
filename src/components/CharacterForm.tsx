@@ -99,7 +99,7 @@ export function CharacterForm(props: CharacterFormPropsType) {
                             <FormLabel>Character name</FormLabel>
                             <Input
                                 {...field}
-                                placeholder="Pick something cool like Michaelius or Aphrodite"
+                                placeholder="Write something here"
                             />
                             <FormMessage/>
                         </FormItem>
@@ -116,7 +116,7 @@ export function CharacterForm(props: CharacterFormPropsType) {
                             <Select onValueChange={field.onChange} defaultValue={field.value}>
                                 <FormControl>
                                     <SelectTrigger>
-                                        <SelectValue placeholder=" "/>
+                                        <SelectValue placeholder="Click on me"/>
                                     </SelectTrigger>
                                 </FormControl>
                                 <SelectContent>{genderDropdown()}</SelectContent>
@@ -136,7 +136,7 @@ export function CharacterForm(props: CharacterFormPropsType) {
                             <Select onValueChange={field.onChange} defaultValue={field.value}>
                                 <FormControl>
                                     <SelectTrigger>
-                                        <SelectValue placeholder=" "/>
+                                        <SelectValue placeholder="Click on me"/>
                                     </SelectTrigger>
                                 </FormControl>
                                 <SelectContent>{ageDropdown()}</SelectContent>
@@ -156,7 +156,7 @@ export function CharacterForm(props: CharacterFormPropsType) {
                             <Select onValueChange={field.onChange} defaultValue={field.value}>
                                 <FormControl>
                                     <SelectTrigger>
-                                        <SelectValue placeholder=" "/>
+                                        <SelectValue placeholder="Click on me"/>
                                     </SelectTrigger>
                                 </FormControl>
                                 <SelectContent>{raceDropdown()}</SelectContent>
