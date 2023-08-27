@@ -32,12 +32,24 @@ export const characterRouter = createTRPCRouter({
         return ctx.prisma.race.findMany();
     }),
 
+    // Get all possible gender options in the database
+    getAllGenders: publicProcedure.query(({ctx}) => {
+        return ctx.prisma.gender.findMany();
+    }),
+
+    // Get all possibly age options in the database
+    getAllAges: publicProcedure.query(({ctx}) => {
+        return ctx.prisma.age.findMany();
+    }),
+
     // Create a new character
     createCharacter: publicProcedure
         .input(
             z.object({
                 characterName: z.string(),
                 raceName: z.string(),
+                genderName: z.string(),
+                ageName: z.string(),
             })
         )
         .mutation(({ctx, input}) => {
@@ -45,6 +57,8 @@ export const characterRouter = createTRPCRouter({
                 data: {
                     characterName: input.characterName,
                     raceName: input.raceName,
+                    genderName: input.genderName,
+                    ageName: input.ageName
                 },
             });
         }),

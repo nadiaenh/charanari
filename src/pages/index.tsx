@@ -16,11 +16,21 @@ export default function Home() {
         isSuccess: createCharacterIsSuccess,
     } = api.character.createCharacter.useMutation();
 
-    // Fetch necessary race data from database
+    // Fetch race, age, and gender data from database
     const {
         data: getAllRaces,
         isLoading: getAllRacesIsLoading
     } = api.character.getAllRaces.useQuery();
+
+    const {
+        data: getAllAges,
+        isLoading: getAllAgesIsLoading
+    } = api.character.getAllAges.useQuery();
+
+    const {
+        data: getAllGenders,
+        isLoading: getAllGendersIsLoading
+    } = api.character.getAllGenders.useQuery();
 
     // Generate character image using OpenAI
     const {
@@ -29,7 +39,9 @@ export default function Home() {
         isSuccess: generateCharacterImageIsSuccess,
     } = api.character.generateImage.useMutation();
 
-    if (getAllRacesIsLoading || getAllRaces === undefined) {
+    if (getAllRacesIsLoading || getAllRaces === undefined ||
+        getAllAgesIsLoading || getAllAges === undefined ||
+        getAllGendersIsLoading || getAllGenders === undefined) {
         return (
             <Layout>
                 <>Welcome, page is loading...</>
@@ -43,6 +55,8 @@ export default function Home() {
         createCharacter({
             characterName: data.characterName,
             raceName: data.raceName,
+            ageName: data.ageName,
+            genderName: data.genderName
         });
         const input = {
             prompt: "A fictional character named " + data.characterName + " who is of the " + data.raceName + " race."
@@ -55,7 +69,7 @@ export default function Home() {
     if (createCharacterIsLoading) {
         return (
             <Layout>
-                <>Character creation in progress... You just cost me 0.02$ in AI generation fee!</>
+                <>Character creation in progress...</>
             </Layout>
         )
     }
@@ -84,7 +98,7 @@ export default function Home() {
 
     return (
         <Layout>
-            <CharacterForm allRaces={getAllRaces} onSubmit={onSubmit}/>
+            <CharacterForm allRaces={getAllRaces} allAges={getAllAges} allGenders={getAllGenders} onSubmit={onSubmit}/>
         </Layout>
     );
 }

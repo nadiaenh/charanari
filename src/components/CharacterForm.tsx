@@ -1,5 +1,4 @@
-"use client"
-
+import React, {FormEventHandler} from "react";
 import {zodResolver} from "@hookform/resolvers/zod";
 import {useForm} from "react-hook-form";
 import * as z from "zod";
@@ -23,43 +22,74 @@ import {
 import type {RouterOutputs} from "~/utils/api";
 
 // Define the type of the data returned by the getAllRaces endpoint
-type getAllRacesOutputType = RouterOutputs["character"]["getAllRaces"]
+type getAllRacesOutputType = RouterOutputs["character"]["getAllRaces"];
+type getAllGendersOutputType = RouterOutputs["character"]["getAllGenders"];
+type getAllAgesOutputType = RouterOutputs["character"]["getAllAges"];
 
-type CharacterFormPropsType = { allRaces: getAllRacesOutputType, onSubmit: (data: z.infer<typeof FormSchema>) => void };
+type CharacterFormPropsType = {
+    allRaces: getAllRacesOutputType;
+    allGenders: getAllGendersOutputType;
+    allAges: getAllAgesOutputType;
+    onSubmit: (data: z.infer<typeof FormSchema>) => void;
+};
 
 export const FormSchema = z.object({
     characterName: z
-        .string({required_error: "Please enter a name for your character.",})
+        .string({
+            required_error: "Please enter a name for your character.",
+        })
         .min(3, {message: "Name must be at least 3 characters long."})
         .max(20, {message: "Name must be at most 20 characters long."})
-        .regex(/^[a-zA-Z]+$/, {message: "Name must only contain alphabet characters."}),
-
-    raceName: z
-        .string({
-            required_error: "Please select a race from the dropdown menu.",
+        .regex(/^[a-zA-Z]+$/, {
+            message: "Name must only contain alphabet characters.",
         }),
-})
+
+    genderName: z.string({
+        required_error: "Please select the character's gender.",
+    }),
+
+    ageName: z.string({
+        required_error: "Please enter the character's age.",
+    }),
+
+    raceName: z.string({
+        required_error: "Please select a race from the dropdown menu.",
+    })
+});
 
 export function CharacterForm(props: CharacterFormPropsType) {
-
-    const {allRaces, onSubmit} = props
+    const {allRaces, allGenders, allAges, onSubmit} = props;
     const form = useForm<z.infer<typeof FormSchema>>({
         resolver: zodResolver(FormSchema),
-    })
+    });
 
     function raceDropdown() {
         return allRaces.map((race) => (
-            <SelectItem key={race.id} value={race.raceName}>
-                {race.raceName}
+            <SelectItem key={race.id} value={race.name}>
+                {race.name}
             </SelectItem>
-        ))
+        ));
     }
 
-    // noinspection TypeScriptValidateTypes
+    function genderDropdown() {
+        return allGenders.map((gender) => (
+            <SelectItem key={gender.id} value={gender.name}>
+                {gender.name}
+            </SelectItem>
+        ));
+    }
+
+    function ageDropdown() {
+        return allAges.map((age) => (
+            <SelectItem key={age.id} value={age.name}>
+                {age.name}
+            </SelectItem>
+        ));
+    }
+
     return (
         <Form {...form}>
-            <form onSubmit={form.handleSubmit(onSubmit)} className="w-2/3 space-y-6">
-
+            <form onSubmit={form.handleSubmit(onSubmit)}>
                 {/* NAME INPUT FIELD */}
                 <FormField
                     control={form.control}
@@ -67,7 +97,50 @@ export function CharacterForm(props: CharacterFormPropsType) {
                     render={({field}) => (
                         <FormItem>
                             <FormLabel>Character name</FormLabel>
-                            <Input {...field} placeholder="Pick something cool like Michaelius or Aphrodite"/>
+                            <Input
+                                {...field}
+                                placeholder="Pick something cool like Michaelius or Aphrodite"
+                            />
+                            <FormMessage/>
+                        </FormItem>
+                    )}
+                />
+
+                {/* GENDER SELECTION FIELD */}
+                <FormField
+                    control={form.control}
+                    name="genderName"
+                    render={({field}) => (
+                        <FormItem>
+                            <FormLabel>Pick an essence</FormLabel>
+                            <Select onValueChange={field.onChange} defaultValue={field.value}>
+                                <FormControl>
+                                    <SelectTrigger>
+                                        <SelectValue placeholder=" "/>
+                                    </SelectTrigger>
+                                </FormControl>
+                                <SelectContent>{genderDropdown()}</SelectContent>
+                            </Select>
+                            <FormMessage/>
+                        </FormItem>
+                    )}
+                />
+
+                {/* AGE SELECTION FIELD */}
+                <FormField
+                    control={form.control}
+                    name="ageName"
+                    render={({field}) => (
+                        <FormItem>
+                            <FormLabel>Pick a life stage</FormLabel>
+                            <Select onValueChange={field.onChange} defaultValue={field.value}>
+                                <FormControl>
+                                    <SelectTrigger>
+                                        <SelectValue placeholder=" "/>
+                                    </SelectTrigger>
+                                </FormControl>
+                                <SelectContent>{ageDropdown()}</SelectContent>
+                            </Select>
                             <FormMessage/>
                         </FormItem>
                     )}
@@ -79,24 +152,41 @@ export function CharacterForm(props: CharacterFormPropsType) {
                     name="raceName"
                     render={({field}) => (
                         <FormItem>
-                            <FormLabel>Character race</FormLabel>
+                            <FormLabel>Pick a people</FormLabel>
                             <Select onValueChange={field.onChange} defaultValue={field.value}>
                                 <FormControl>
                                     <SelectTrigger>
                                         <SelectValue placeholder=" "/>
                                     </SelectTrigger>
                                 </FormControl>
-                                <SelectContent>
-                                    {raceDropdown()}
-                                </SelectContent>
+                                <SelectContent>{raceDropdown()}</SelectContent>
                             </Select>
                             <FormMessage/>
                         </FormItem>
                     )}
                 />
 
-                <Button type="submit">Submit</Button>
+                {/* BUTTON CONTAINER */}
+                <div className="mt-4 flex justify-between">
+                    {/* CLEAR FORM BUTTON */}
+                    <div>
+                        <Button
+                            type="reset"
+                            className="bg-gray-300 hover:bg-gray-400"
+                            onReset={form.reset as FormEventHandler<HTMLButtonElement>}
+                        >
+                            Clear
+                        </Button>
+                    </div>
+
+                    {/* SUBMIT BUTTON */}
+                    <div>
+                        <Button type="submit" className="bg-blue-500 hover:bg-blue-600">
+                            Create
+                        </Button>
+                    </div>
+                </div>
             </form>
         </Form>
-    )
+    );
 }
