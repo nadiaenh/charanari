@@ -18,13 +18,40 @@ model Character {
   createdAt     DateTime @default(now())
   updatedAt     DateTime @updatedAt
   raceName      String
-  race          Race     @relation(fields: [raceName], references: [raceName])
+  genderName    String
+  ageName       String
+  avatarPath    String?
+  race          Race     @relation(fields: [raceName], references: [name])
+  gender        Gender   @relation(fields: [genderName], references: [name])
+  age           Age      @relation(fields: [ageName], references: [name])
 }
 
 model Race {
-  id         String      @id @default(cuid())
-  raceName   String      @unique
-  createdAt  DateTime    @default(now())
-  updatedAt  DateTime    @updatedAt
-  characters Character[]
+  id          String      @id @default(cuid())
+  name        String      @unique
+  description String
+  prompt      String
+  createdAt   DateTime    @default(now())
+  updatedAt   DateTime    @updatedAt
+  characters  Character[]
+}
+
+model Gender {
+  id          String      @id @default(cuid())
+  name        String      @unique
+  description String
+  prompt      String
+  createdAt   DateTime    @default(now())
+  updatedAt   DateTime    @updatedAt
+  characters  Character[]
+}
+
+model Age {
+  id          String      @id @default(cuid())
+  name        String      @unique
+  description String
+  prompt      String
+  createdAt   DateTime    @default(now())
+  updatedAt   DateTime    @updatedAt
+  characters  Character[]
 }
