@@ -2,9 +2,9 @@
 
 import {z} from "zod";
 import {createTRPCRouter, publicProcedure} from "~/server/api/trpc";
-import {type ImagesResponse} from "openai/resources";
 import {supabase} from "~/server/supabase";
 import axios, {type AxiosResponse} from "axios";
+import {replicate} from "~/server/replicateai";
 
 export const characterRouter = createTRPCRouter({
     // Get a character by characterId
@@ -49,37 +49,44 @@ export const characterRouter = createTRPCRouter({
             });
         }),
 
-    // Generate a character image using OpenAI
+    // Generate a character image using OpenAI and save it to Supabase storage
     generateImage: publicProcedure
         .input(z.object({
             prompt: z.string(),
         }))
         .mutation(async ({ctx, input}) => {
+            const model =
+                "stability-ai/stable-diffusion:27b93a2413e7f36cd83da926f3656280b2931564ff050bf9575f1fdf9bcd7478";
+
             console.log("Received input:", input);
-
-            const response: ImagesResponse = await ctx.openai.images.generate({prompt: input.prompt});
-            console.log("generateImage response:", response);
-
-            const imageURL = response?.data[0]?.url ?? "https://media2.giphy.com/media/v1.Y2lkPTc5MGI3NjExYzJld2x3cmo5MnZuZzQ5am94bjIxbGVwNDRmc3drOXFtM3g3dXJvYyZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9cw/95dDwxcwwwQ78XXQIN/giphy.gif";
-            console.log("Attempting to save character avatar:", imageURL);
+            const output: string = await replicate.run(model, {input})
+                .then((response) => {
+                    console.log("replicate.run() response:", response);
+                    return (response as unknown as string);
+                })
+                .catch((error) => {
+                    console.log("replicate.run() error:", error);
+                    return "";
+                });
 
             // Download image from URL
-            const axiosResponse: AxiosResponse<ArrayBuffer> = await axios.get<ArrayBuffer>(imageURL, {responseType: 'arraybuffer'});
+            const axiosResponse: AxiosResponse<ArrayBuffer> = await axios.get<ArrayBuffer>(output, {responseType: 'arraybuffer'});
             console.log("axios.get(imageURL) response:", axiosResponse);
             const axiosResponseData: ArrayBuffer = axiosResponse.data ?? {};
-            const imageBody = Buffer.from(axiosResponseData);
-            console.log("Buffer.from(axios.data) response:", imageBody);
+            const fileBody = Buffer.from(axiosResponseData);
+            console.log("Buffer.from(axios.data) response:", fileBody);
 
             // Upload image to Supabase storage
+            const path = `${output}`;
             const {data, error} = await supabase
                 .storage
                 .from('avatars')
-                .upload(imageURL, imageBody, {
+                .upload(path, fileBody, {
                     cacheControl: '3600',
-                    upsert: false
+                    upsert: true
                 });
             console.log("supabase.upload() response:", data, error);
 
-            return imageURL;
+            return output;
         }),
 });

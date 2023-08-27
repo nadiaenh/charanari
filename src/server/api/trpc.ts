@@ -11,7 +11,7 @@ import {type CreateNextContextOptions} from "@trpc/server/adapters/next";
 import superjson from "superjson";
 import {ZodError} from "zod";
 import {prisma} from "~/server/db";
-import {openai} from "~/server/openai";
+import {replicate} from "~/server/replicateai";
 
 /**
  * 1. CONTEXT
@@ -36,7 +36,7 @@ type CreateContextOptions = Record<string, never>;
 const createInnerTRPCContext = (_opts: CreateContextOptions) => {
     return {
         prisma,
-        openai,
+        replicate,
     };
 };
 

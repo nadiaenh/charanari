@@ -25,7 +25,7 @@ export default function Home() {
     // Generate character image using OpenAI
     const {
         mutate: generateCharacterImage,
-        data: generatedImageURL,
+        data: generatedImageOutput,
         isSuccess: generateCharacterImageIsSuccess,
     } = api.character.generateImage.useMutation();
 
@@ -44,11 +44,12 @@ export default function Home() {
             characterName: data.characterName,
             raceName: data.raceName,
         });
-        generateCharacterImage({
+        const input = {
             prompt: "A fictional character named " + data.characterName + " who is of the " + data.raceName + " race."
-        });
+        };
+        generateCharacterImage(input);
         console.log("Created character:", createdCharacterData);
-        console.log("Generated image:", generatedImageURL);
+        console.log("Generated image:", generatedImageOutput);
     };
 
     if (createCharacterIsLoading) {
@@ -71,7 +72,11 @@ export default function Home() {
                     <br/>
                     Race: {createdCharacterData.raceName}
                     <br/>
-                    <img src={generatedImageURL} alt="Generated character image" width={300} height={300}/>
+                    <img
+                        src={generatedImageOutput}
+                        alt="output"
+                        sizes='100vw'
+                    />
                 </p>
             </Layout>
         )
