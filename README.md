@@ -1,8 +1,12 @@
-# myGame
+# need to find a nice catchy name for this project
 
-[link](https://supabase-game.vercel.app/)
+also need to change the [domain name](https://supabase-game.vercel.app/)
 
-## How I built this
+also need to put a nice GIF here when I have a cute UI
+
+### Infrastructure diagram
+
+Might clean it up later
 
 ![diagram](https://github.com/nadiaenh/supabase-game/blob/main/public/components_diagram.png)
 
@@ -59,6 +63,37 @@ Environment variables and schemas need to be set up properly before starting to 
 `npx prisma db seed` to populate the tables with data from `./prisma/seed.ts` -- **this will delete all rows currently
 in all tables!!**
 
-### OpenAI
+### Progress journal
 
-I set the hard limit at 20$ (all requests will be rejected) and soft limit at 10$ (notification email).
+**August 21 to 27:**
+
+- [X] Create Race etc. schemas and get form options from there
+- [X] Update the UI with Tailwind components or ShadcnUI
+- [X] Make SelectRace actually update the state - see how test.tsx implements SubmitButton
+- ~~[ ] Make SubmitForm open a popup to create a character~~
+  in <Head> as preloaded for NextJS
+- [X] Set up basic OpenAI image generation
+- [X] Fixed `npm run build` type safety errors (fixed some and turned off checking for others)
+- [X] Character avatars now get saved to Supabase storage when a character is created
+- [X] Switched over to ReplicateAI instead of OpenAI
+
+![](/public/screenshots/week1-ui.gif)
+
+**August 28 to September 3:**
+
+- [ ] Set up user authentication (see how T3 Turbo Supabase repo implements auth).
+
+**Up next:**
+
+- [ ] Set the path for the avatar based on the username OR save the full file path in the database
+- [ ] Add more form fields
+- [ ] UI improvements:
+    - Find a cute [free loading animation gif](https://lottiefiles.com/featured) to use as my loading screen - put it
+    - Set up a nice looking UI
+- [ ] Add try/catches in all my logic
+
+**Future, future work:**
+
+- [ ] Set
+  up [Supabase database backups](https://supabase.com/dashboard/project/niyrisfdjxcwffpdpzqp/database/backups/scheduled) (
+  on Pro plan only) or figure out the `pg dump` manual SQL command thing`.
