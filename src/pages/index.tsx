@@ -11,37 +11,30 @@ export default function Home() {
     // Create a new character
     const {
         mutate: createCharacter,
-        data: createdCharacterData,
+        data: createdCharacterAvatar,
         isLoading: createCharacterIsLoading,
         isSuccess: createCharacterIsSuccess,
     } = api.character.createCharacter.useMutation();
 
     // Fetch race, age, and gender data from database
     const {
-        data: getAllRaces,
+        data: allRaces,
         isLoading: getAllRacesIsLoading
     } = api.character.getAllRaces.useQuery();
 
     const {
-        data: getAllAges,
+        data: allAges,
         isLoading: getAllAgesIsLoading
     } = api.character.getAllAges.useQuery();
 
     const {
-        data: getAllGenders,
+        data: allGenders,
         isLoading: getAllGendersIsLoading
     } = api.character.getAllGenders.useQuery();
 
-    // Generate character image using OpenAI
-    const {
-        mutate: generateCharacterImage,
-        data: generatedImageOutput,
-        isSuccess: generateCharacterImageIsSuccess,
-    } = api.character.generateImage.useMutation();
-
-    if (getAllRacesIsLoading || getAllRaces === undefined ||
-        getAllAgesIsLoading || getAllAges === undefined ||
-        getAllGendersIsLoading || getAllGenders === undefined) {
+    if (getAllRacesIsLoading || allRaces === undefined ||
+        getAllAgesIsLoading || allAges === undefined ||
+        getAllGendersIsLoading || allGenders === undefined) {
         return (
             <Layout>
                 <>Welcome, page is loading...</>
@@ -51,19 +44,25 @@ export default function Home() {
 
     // Form submission handler
     const onSubmit = (data: z.infer<typeof FormSchema>) => {
-        console.log("Submitted data:", data);
+        console.log("Character creation initiated...")
+
+        // Get the prompts for each attribute
+        let prompts = "";
+        const selectedGender = allGenders.find(gender => gender.name === data.genderName);
+        const selectedAge = allAges.find(age => age.name === data.ageName);
+        const selectedRace = allRaces.find(race => race.name === data.raceName);
+        if (selectedGender && selectedAge && selectedRace) {
+            prompts = selectedGender.prompt + "," + selectedAge.prompt + "," + selectedRace.prompt;
+        }
+
         createCharacter({
             characterName: data.characterName,
             raceName: data.raceName,
             ageName: data.ageName,
-            genderName: data.genderName
+            genderName: data.genderName,
+            prompts: prompts
         });
-        const input = {
-            prompt: "A fictional character named " + data.characterName + " who is of the " + data.raceName + " race."
-        };
-        generateCharacterImage(input);
-        console.log("Created character:", createdCharacterData);
-        console.log("Generated image:", generatedImageOutput);
+        console.log("Created character:", createdCharacterAvatar);
     };
 
     if (createCharacterIsLoading) {
@@ -74,22 +73,15 @@ export default function Home() {
         )
     }
 
-    if (createCharacterIsSuccess && generateCharacterImageIsSuccess) {
+    if (createCharacterIsSuccess) {
         return (
             <Layout>
                 <p>
                     Character created!
                     <br/>
-                    ID: {createdCharacterData.id}
-                    <br/>
-                    Name: {createdCharacterData.characterName}
-                    <br/>
-                    Race: {createdCharacterData.raceName}
-                    <br/>
                     <img
-                        src={generatedImageOutput}
+                        src={createdCharacterAvatar}
                         alt="output"
-                        sizes='100vw'
                     />
                 </p>
             </Layout>
@@ -98,7 +90,7 @@ export default function Home() {
 
     return (
         <Layout>
-            <CharacterForm allRaces={getAllRaces} allAges={getAllAges} allGenders={getAllGenders} onSubmit={onSubmit}/>
+            <CharacterForm allRaces={allRaces} allAges={allAges} allGenders={allGenders} onSubmit={onSubmit}/>
         </Layout>
     );
 }
