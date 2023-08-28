@@ -23,8 +23,8 @@ async function generateImage(characterPrompts: string) {
         }
     };
 
-    const response = await replicate.run(model, input);
-    return response as unknown as string;
+    const response = await replicate.run(model, input) as unknown as string;
+    return response[0];
 }
 
 async function downloadImage(imageURL: string): Promise<Buffer> {
@@ -100,19 +100,12 @@ export const characterRouter = createTRPCRouter({
         )
         .mutation(async ({ctx, input}) => {
 
-            let imageURL = "";
-            await generateImage(input.prompts)
-                .then(response => {
-                    imageURL = response;
-                }).catch(error => {
-                    console.error(error);
-                });
-            imageURL = imageURL[0] ?? imageURL;
+            const imageURL = await generateImage(input.prompts);
 
             // Upload image to Supabase storage
-            const fileBody: Buffer = await downloadImage(imageURL);
-            const filePath = `${imageURL}`;
-            await uploadToStorage(filePath, fileBody);
+            // const fileBody: Buffer = await downloadImage(imageURL);
+            // const filePath = `${imageURL}`;
+            // await uploadToStorage(filePath, fileBody);
 
             console.log("Creating character in database...");
             await ctx.prisma.character.create({
@@ -120,7 +113,8 @@ export const characterRouter = createTRPCRouter({
                     characterName: input.characterName,
                     raceName: input.raceName,
                     genderName: input.genderName,
-                    ageName: input.ageName
+                    ageName: input.ageName,
+                    avatarPath: imageURL
                 },
             });
 
