@@ -5,6 +5,7 @@ import React from "react";
 import Layout from "../components/Layout";
 import {CharacterForm, type FormSchema} from "~/components/CharacterForm";
 import type * as z from "zod";
+import {ProgressBar} from "~/components/ui/progress"
 
 export default function Home() {
 
@@ -38,6 +39,8 @@ export default function Home() {
         return (
             <Layout>
                 <>Welcome, page is loading...</>
+                <br/>
+                <ProgressBar durationInSeconds={3}/>
             </Layout>
         )
     }
@@ -65,10 +68,11 @@ export default function Home() {
         console.log(response);
     };
 
-    if (createCharacterIsLoading) {
+    if (createCharacterIsLoading === undefined) {
         return (
             <Layout>
                 <>Character creation in progress...</>
+                <ProgressBar durationInSeconds={20}/>
             </Layout>
         )
     }
