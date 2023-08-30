@@ -10,8 +10,8 @@ export default function Home() {
 
     // Create a new character
     const {
-        mutateAsync: createCharacter,
-        data: createdCharacterAvatar,
+        mutate: createCharacter,
+        data: createdCharacterId,
         isLoading: createCharacterIsLoading,
         isSuccess: createCharacterIsSuccess,
     } = api.character.createCharacter.useMutation();
@@ -63,7 +63,6 @@ export default function Home() {
             prompts: prompts
         });
         console.log(response);
-        console.log("Created character:", createdCharacterAvatar);
     };
 
     if (createCharacterIsLoading) {
@@ -74,16 +73,13 @@ export default function Home() {
         )
     }
 
-    if (createCharacterIsSuccess) {
+    if (createCharacterIsSuccess && createdCharacterId !== undefined) {
         return (
             <Layout>
                 <p>
                     Character created!
                     <br/>
-                    <img
-                        src={createdCharacterAvatar}
-                        alt="output"
-                    />
+                    Character ID: {createdCharacterId}
                 </p>
             </Layout>
         )

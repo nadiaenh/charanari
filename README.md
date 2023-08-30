@@ -52,8 +52,6 @@ Uses [Prisma with Supabase](https://www.prisma.io/docs/guides/database/supabase)
 - [X] Create Race etc. schemas and get form options from there
 - [X] Update the UI with Tailwind components or ShadcnUI
 - [X] Make SelectRace actually update the state - see how test.tsx implements SubmitButton
-- ~~[ ] Make SubmitForm open a popup to create a character~~
-  in <Head> as preloaded for NextJS
 - [X] Set up basic OpenAI image generation
 - [X] Fixed `npm run build` type safety errors (fixed some and turned off checking for others)
 - [X] Character avatars now get saved to Supabase storage when a character is created
@@ -64,7 +62,7 @@ Uses [Prisma with Supabase](https://www.prisma.io/docs/guides/database/supabase)
 **2️⃣ August 28 to September 3:**
 
 - [X] Add more form fields + update database schema accordingly
-- [ ] Improve the UI
+- [X] Improve the UI
 - [ ] Set up user authentication (see how T3 Turbo Supabase repo implements auth).
 
 **🔜 Up next:**

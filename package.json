@@ -32,6 +32,7 @@
     "axios": "^1.5.0",
     "class-variance-authority": "^0.7.0",
     "clsx": "^2.0.0",
+    "cors": "^2.8.5",
     "lucide-react": "^0.268.0",
     "next": "^13.4.2",
     "openai": "^4.2.0",
@@ -46,6 +47,7 @@
     "zod": "^3.22.2"
   },
   "devDependencies": {
+    "@types/cors": "^2.8.13",
     "@types/eslint": "^8.37.0",
     "@types/node": "^18.17.11",
     "@types/prettier": "^2.7.2",

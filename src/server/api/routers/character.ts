@@ -3,52 +3,55 @@
 import {z} from "zod";
 import {createTRPCRouter, publicProcedure} from "~/server/api/trpc";
 import {supabase} from "~/server/supabase";
-import axios, {type AxiosResponse} from "axios";
+import axios from "axios";
 import {replicate} from "~/server/replicateai";
 
 const model = "cjwbw/anything-v3-better-vae:09a5805203f4c12da649ec1923bb7729517ca25fcac790e640eaa9ed66573b65";
 const BASE_PROMPT = "best quality, illustration, beautiful detailed, colorful, face and torso, sfw";
 const NEGATIVE_PROMPT = "lowres, bad anatomy, bad hands, text, error, missing fingers, extra digit, fewer digits, cropped, worst quality, low quality, jpeg artifacts, signature, watermark, username, blurry, artist name, nudity, nsfw";
 
-async function generateImage(characterPrompts: string) {
-    console.log("Generating image using replicate.ai...")
-    const prompt = BASE_PROMPT + characterPrompts;
+async function generateImage(characterPrompts: string): Promise<string | undefined> {
+    try {
+        const prompt = BASE_PROMPT + characterPrompts;
 
-    const input = {
-        input: {
-            prompt: prompt,
-            negative_prompt: NEGATIVE_PROMPT,
-            width: 512,
-            height: 512,
-        }
-    };
+        const input = {
+            input: {
+                prompt: prompt,
+                negative_prompt: NEGATIVE_PROMPT,
+                width: 512,
+                height: 512,
+            }
+        };
 
-    const response = await replicate.run(model, input) as unknown as string;
-    return response[0];
+        const response = await replicate.run(model, input) as string[];
+        return response[0];
+    } catch (error) {
+        console.error("Error generating image:", error);
+        throw error;
+    }
 }
 
 async function downloadImage(imageURL: string): Promise<Buffer> {
-    console.log("Downloading image using axios...");
-
-    const axiosResponse: AxiosResponse<ArrayBuffer> = await axios.get<ArrayBuffer>(imageURL, {responseType: 'arraybuffer'});
-    console.log("Axios response: ", JSON.stringify(axiosResponse));
-
-    const axiosResponseData: ArrayBuffer = axiosResponse.data ?? {};
-    return Buffer.from(axiosResponseData);
+    try {
+        const axiosResponse = await axios.get<ArrayBuffer>(imageURL, {responseType: 'arraybuffer'});
+        return Buffer.from(axiosResponse.data ?? {});
+    } catch (error) {
+        console.error("Error downloading image:", error);
+        throw error;
+    }
 }
 
 async function uploadToStorage(filePath: string, fileBody: Buffer): Promise<void> {
-    console.log("Uploading image to Supabase storage...")
-
-    await supabase.storage.from('avatars')
-        .upload(filePath, fileBody, {
+    try {
+        await supabase.storage.from('avatars').upload(filePath, fileBody, {
             cacheControl: '3600',
             upsert: true
-        }).then(response => {
-            console.log(response);
-        }).catch(error => {
-            console.error(error);
         });
+        console.log("Image uploaded to Supabase storage.");
+    } catch (error) {
+        console.error("Error uploading image to Supabase storage:", error);
+        throw error;
+    }
 }
 
 export const characterRouter = createTRPCRouter({
@@ -99,26 +102,27 @@ export const characterRouter = createTRPCRouter({
             })
         )
         .mutation(async ({ctx, input}) => {
+            try {
+                console.log("Creating character in the database...");
 
-            const imageURL = await generateImage(input.prompts);
+                const generatedImage = await generateImage(input.prompts) ?? "https://ih1.redbubble.net/image.2579899118.1732/st,small,507x507-pad,600x600,f8f8f8.jpg";
+                const fileBody = await downloadImage(generatedImage);
+                await uploadToStorage(generatedImage, fileBody);
 
-            // Upload image to Supabase storage
-            // const fileBody: Buffer = await downloadImage(imageURL);
-            // const filePath = `${imageURL}`;
-            // await uploadToStorage(filePath, fileBody);
+                const response = await ctx.prisma.character.create({
+                    data: {
+                        characterName: input.characterName,
+                        raceName: input.raceName,
+                        genderName: input.genderName,
+                        ageName: input.ageName,
+                        avatarPath: generatedImage
+                    },
+                });
 
-            console.log("Creating character in database...");
-            await ctx.prisma.character.create({
-                data: {
-                    characterName: input.characterName,
-                    raceName: input.raceName,
-                    genderName: input.genderName,
-                    ageName: input.ageName,
-                    avatarPath: imageURL
-                },
-            });
-
-            console.log(imageURL);
-            return imageURL;
+                return response.id;
+            } catch (error) {
+                console.error("Error creating character:", error);
+                throw error;
+            }
         }),
 });
