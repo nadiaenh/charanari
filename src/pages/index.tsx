@@ -10,7 +10,7 @@ export default function Home() {
 
     // Create a new character
     const {
-        mutate: createCharacter,
+        mutateAsync: createCharacter,
         data: createdCharacterAvatar,
         isLoading: createCharacterIsLoading,
         isSuccess: createCharacterIsSuccess,
@@ -55,17 +55,18 @@ export default function Home() {
             prompts = selectedGender.prompt + "," + selectedAge.prompt + "," + selectedRace.prompt;
         }
 
-        createCharacter({
+        const response = createCharacter({
             characterName: data.characterName,
             raceName: data.raceName,
             ageName: data.ageName,
             genderName: data.genderName,
             prompts: prompts
         });
+        console.log(response);
         console.log("Created character:", createdCharacterAvatar);
     };
 
-    if (createCharacterIsLoading || createdCharacterAvatar === undefined) {
+    if (createCharacterIsLoading) {
         return (
             <Layout>
                 <>Character creation in progress...</>

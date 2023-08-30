@@ -118,6 +118,7 @@ export const characterRouter = createTRPCRouter({
                 },
             });
 
+            console.log(imageURL);
             return imageURL;
         }),
 });
