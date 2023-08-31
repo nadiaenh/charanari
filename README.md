@@ -63,8 +63,7 @@ Uses [Prisma with Supabase](https://www.prisma.io/docs/guides/database/supabase)
 
 - [X] Add more form fields + update database schema accordingly
 - [X] Improve the UI
-- [X] Set up Clerk authentication
-- [ ] Set up getCharacterById -> display it in page
+- [ ] Set up user authentication (see how T3 Turbo Supabase repo implements auth).
 
 **🔜 Up next:**
 
