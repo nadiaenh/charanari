@@ -57,15 +57,15 @@ export default function Home() {
         if (selectedGender && selectedAge && selectedRace) {
             prompts = selectedGender.prompt + "," + selectedAge.prompt + "," + selectedRace.prompt;
         }
-
-        const response = createCharacter({
-            characterName: data.characterName,
-            raceName: data.raceName,
-            ageName: data.ageName,
-            genderName: data.genderName,
-            prompts: prompts
-        });
-        console.log(response);
+        console.log(data);
+        // const response = createCharacter({
+        //     characterName: data.characterName,
+        //     raceName: data.raceName,
+        //     ageName: data.ageName,
+        //     genderName: data.genderName,
+        //     prompts: prompts
+        // });
+        // console.log(response);
     };
 
     if (createCharacterIsLoading === undefined) {

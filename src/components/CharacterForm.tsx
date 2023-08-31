@@ -23,40 +23,16 @@ import type {RouterOutputs} from "~/utils/api";
 import {ChevronRight, Eraser} from "lucide-react";
 import HorizontalSelector from "~/components/ui/HorizontalSelect";
 
-// Define the type of the data returned by the getAllRaces endpoint
+// Type definitions
 type getAllRacesOutputType = RouterOutputs["character"]["getAllRaces"];
 type getAllGendersOutputType = RouterOutputs["character"]["getAllGenders"];
 type getAllAgesOutputType = RouterOutputs["character"]["getAllAges"];
-
 type CharacterFormPropsType = {
     allRaces: getAllRacesOutputType;
     allGenders: getAllGendersOutputType;
     allAges: getAllAgesOutputType;
     onSubmit: (data: z.infer<typeof FormSchema>) => void;
 };
-
-const items: Item[] = [
-    {
-        id: 1,
-        name: 'Item 1',
-        image: 'https://domf5oio6qrcr.cloudfront.net/medialibrary/6372/202ebeef-6657-44ec-8fff-28352e1f5999.jpg'
-    },
-    {
-        id: 2,
-        name: 'Item 2',
-        image: 'https://static.vecteezy.com/system/resources/previews/005/634/168/original/strawberry-icon-isolated-on-white-illustration-free-vector.jpg'
-    },
-    {
-        id: 3,
-        name: 'Item 3',
-        image: 'https://domf5oio6qrcr.cloudfront.net/medialibrary/6372/202ebeef-6657-44ec-8fff-28352e1f5999.jpg'
-    },
-    {
-        id: 4,
-        name: 'Item 4',
-        image: 'https://static.vecteezy.com/system/resources/previews/005/634/168/original/strawberry-icon-isolated-on-white-illustration-free-vector.jpg'
-    },
-];
 
 export const FormSchema = z.object({
     characterName: z
@@ -79,7 +55,12 @@ export const FormSchema = z.object({
 
     raceName: z.string({
         required_error: "Please select a race from the dropdown menu.",
-    })
+    }),
+    selectedItem: z.object({
+        id: z.number(),
+        name: z.string(),
+        image: z.string(),
+    }),
 });
 
 export function CharacterForm(props: CharacterFormPropsType) {
@@ -87,6 +68,29 @@ export function CharacterForm(props: CharacterFormPropsType) {
     const form = useForm<z.infer<typeof FormSchema>>({
         resolver: zodResolver(FormSchema),
     });
+
+    const items = [
+        {
+            id: 1,
+            name: 'Item 1',
+            image: 'https://domf5oio6qrcr.cloudfront.net/medialibrary/6372/202ebeef-6657-44ec-8fff-28352e1f5999.jpg'
+        },
+        {
+            id: 2,
+            name: 'Item 2',
+            image: 'https://static.vecteezy.com/system/resources/previews/005/634/168/original/strawberry-icon-isolated-on-white-illustration-free-vector.jpg'
+        },
+        {
+            id: 3,
+            name: 'Item 3',
+            image: 'https://domf5oio6qrcr.cloudfront.net/medialibrary/6372/202ebeef-6657-44ec-8fff-28352e1f5999.jpg'
+        },
+        {
+            id: 4,
+            name: 'Item 4',
+            image: 'https://static.vecteezy.com/system/resources/previews/005/634/168/original/strawberry-icon-isolated-on-white-illustration-free-vector.jpg'
+        },
+    ];
 
     function raceDropdown() {
         return allRaces.map((race) => (
@@ -131,7 +135,21 @@ export function CharacterForm(props: CharacterFormPropsType) {
                     )}
                 />
 
-                <HorizontalSelector items={items}/>
+                {/* FRUIT SELECTION FIELD */}
+                <FormField
+                    control={form.control}
+                    name="selectedItem"
+                    render={({field}) => (
+                        <FormItem>
+                            <Select>
+                                <FormControl>
+                                    <HorizontalSelector items={items} onValueChange={field.onChange}/>
+                                </FormControl>
+                            </Select>
+                            <FormMessage/>
+                        </FormItem>
+                    )}
+                />
 
                 {/* GENDER SELECTION FIELD */}
                 <FormField
