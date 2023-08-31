@@ -1,5 +1,4 @@
 import React, {type ReactNode} from "react";
-import {ClerkProvider} from '@clerk/nextjs'
 import {Analytics} from '@vercel/analytics/react';
 import {UserButton} from "@clerk/nextjs";
 
