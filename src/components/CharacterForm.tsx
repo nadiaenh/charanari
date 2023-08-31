@@ -21,6 +21,7 @@ import {
 } from "~/components/ui/select";
 import type {RouterOutputs} from "~/utils/api";
 import {ChevronRight, Eraser} from "lucide-react";
+import HorizontalSelector from "~/components/ui/HorizontalSelect";
 
 // Define the type of the data returned by the getAllRaces endpoint
 type getAllRacesOutputType = RouterOutputs["character"]["getAllRaces"];
@@ -107,6 +108,8 @@ export function CharacterForm(props: CharacterFormPropsType) {
                     )}
                 />
 
+                <HorizontalSelector/>
+
                 {/* GENDER SELECTION FIELD */}
                 <FormField
                     control={form.control}
@@ -173,7 +176,7 @@ export function CharacterForm(props: CharacterFormPropsType) {
                     <Button type="reset" onReset={form.reset as FormEventHandler<HTMLButtonElement>}>
                         <Eraser/>
                     </Button>
-                    
+
                     {/* SUBMIT BUTTON */}
                     <Button type="submit">
                         <ChevronRight/>
