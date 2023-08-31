@@ -35,6 +35,29 @@ type CharacterFormPropsType = {
     onSubmit: (data: z.infer<typeof FormSchema>) => void;
 };
 
+const items: Item[] = [
+    {
+        id: 1,
+        name: 'Item 1',
+        image: 'https://domf5oio6qrcr.cloudfront.net/medialibrary/6372/202ebeef-6657-44ec-8fff-28352e1f5999.jpg'
+    },
+    {
+        id: 2,
+        name: 'Item 2',
+        image: 'https://static.vecteezy.com/system/resources/previews/005/634/168/original/strawberry-icon-isolated-on-white-illustration-free-vector.jpg'
+    },
+    {
+        id: 3,
+        name: 'Item 3',
+        image: 'https://domf5oio6qrcr.cloudfront.net/medialibrary/6372/202ebeef-6657-44ec-8fff-28352e1f5999.jpg'
+    },
+    {
+        id: 4,
+        name: 'Item 4',
+        image: 'https://static.vecteezy.com/system/resources/previews/005/634/168/original/strawberry-icon-isolated-on-white-illustration-free-vector.jpg'
+    },
+];
+
 export const FormSchema = z.object({
     characterName: z
         .string({
@@ -108,7 +131,7 @@ export function CharacterForm(props: CharacterFormPropsType) {
                     )}
                 />
 
-                <HorizontalSelector/>
+                <HorizontalSelector items={items}/>
 
                 {/* GENDER SELECTION FIELD */}
                 <FormField
