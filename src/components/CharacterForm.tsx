@@ -20,6 +20,7 @@ import {
     SelectValue,
 } from "~/components/ui/select";
 import type {RouterOutputs} from "~/utils/api";
+import {ChevronRight, Eraser} from "lucide-react";
 
 // Define the type of the data returned by the getAllRaces endpoint
 type getAllRacesOutputType = RouterOutputs["character"]["getAllRaces"];
@@ -167,24 +168,16 @@ export function CharacterForm(props: CharacterFormPropsType) {
                 />
 
                 {/* BUTTON CONTAINER */}
-                <div className="mt-4 flex justify-between">
+                <div>
                     {/* CLEAR FORM BUTTON */}
-                    <div>
-                        <Button
-                            type="reset"
-                            className="bg-gray-300 hover:bg-gray-400"
-                            onReset={form.reset as FormEventHandler<HTMLButtonElement>}
-                        >
-                            Clear
-                        </Button>
-                    </div>
-
+                    <Button type="reset" onReset={form.reset as FormEventHandler<HTMLButtonElement>}>
+                        <Eraser/>
+                    </Button>
+                    
                     {/* SUBMIT BUTTON */}
-                    <div>
-                        <Button type="submit" className="bg-blue-500 hover:bg-blue-600">
-                            Create
-                        </Button>
-                    </div>
+                    <Button type="submit">
+                        <ChevronRight/>
+                    </Button>
                 </div>
             </form>
         </Form>
