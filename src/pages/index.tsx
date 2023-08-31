@@ -68,7 +68,7 @@ export default function Home() {
         console.log(response);
     };
 
-    if (createCharacterIsLoading === undefined) {
+    if (createCharacterIsLoading) {
         return (
             <Layout>
                 <>Character creation in progress...</>
