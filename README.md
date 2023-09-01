@@ -1,18 +1,18 @@
-# ✨ this project doesn't have a name yet ✨
+# ✨ CharaNari ✨
 
-also need to change the [domain name](https://supabase-game.vercel.app/)
+*(Temporary name until I find something better)*  
+https://www.charanari.me/  
 
-also need to put a nice GIF here when I have a cute UI
+Create your cute fantasy character, chat with your friends' characters, and build the world's lore!
+
+### 📝 App
 
 Created with [create-t3-app](https://create.t3.gg/) and deployed
 using [Vercel with T3](https://create.t3.gg/en/deployment/vercel).
 
 `npm run dev` will start the server locally.  
-`git push origin main` will deploy to Vercel.
+`git push origin main` will deploy to Vercel.  
 
-### ⚙️ Infrastructure diagram
-
-Might clean it up later
 
 ![diagram](https://github.com/nadiaenh/supabase-game/blob/main/public/components_diagram.png)
 
@@ -64,14 +64,11 @@ Uses [Prisma with Supabase](https://www.prisma.io/docs/guides/database/supabase)
 - [X] Add more form fields + update database schema accordingly
 - [X] Improve the UI
 - [X] Set up Clerk authentication
+- [X] Set up (temporary?) domain name https://www.charanari.me/  
 - [ ] Set up getCharacterById -> display it in page
-
-**🔜 Up next:**
-
-- [ ] Set the path for the avatar based on the username OR save the full file path in the database
-- [ ] UI improvements:
-    - Find a cute [free loading animation gif](https://lottiefiles.com/featured) to use as my loading screen - put it
-- [ ] Add try/catches in all my logic
+- [ ] Prompt engineering for character images
+- [ ] Improve the UI much more ...
+- [ ] Customize the sign-in page
 
 **👵🏽 Future, future work:**
 
