@@ -53,14 +53,7 @@ export const FormSchema = z.object({
         required_error: "Please enter the character's age.",
     }),
 
-    raceName: z.string({
-        required_error: "Please select a race from the dropdown menu.",
-    }),
-    selectedItem: z.object({
-        id: z.number(),
-        name: z.string(),
-        image: z.string(),
-    }),
+    raceName: z.string(),
 });
 
 export function CharacterForm(props: CharacterFormPropsType) {
@@ -69,36 +62,13 @@ export function CharacterForm(props: CharacterFormPropsType) {
         resolver: zodResolver(FormSchema),
     });
 
-    const items = [
+    const raceOptions = allRaces.map((race) => (
         {
-            id: 1,
-            name: 'Item 1',
-            image: 'https://domf5oio6qrcr.cloudfront.net/medialibrary/6372/202ebeef-6657-44ec-8fff-28352e1f5999.jpg'
-        },
-        {
-            id: 2,
-            name: 'Item 2',
-            image: 'https://static.vecteezy.com/system/resources/previews/005/634/168/original/strawberry-icon-isolated-on-white-illustration-free-vector.jpg'
-        },
-        {
-            id: 3,
-            name: 'Item 3',
-            image: 'https://domf5oio6qrcr.cloudfront.net/medialibrary/6372/202ebeef-6657-44ec-8fff-28352e1f5999.jpg'
-        },
-        {
-            id: 4,
-            name: 'Item 4',
-            image: 'https://static.vecteezy.com/system/resources/previews/005/634/168/original/strawberry-icon-isolated-on-white-illustration-free-vector.jpg'
-        },
-    ];
-
-    function raceDropdown() {
-        return allRaces.map((race) => (
-            <SelectItem key={race.id} value={race.name}>
-                {race.name}
-            </SelectItem>
-        ));
-    }
+            id: race.id,
+            name: race.name,
+            image: race.imagePath.replace(/^~\//, "https://raw.githubusercontent.com/nadiaenh/charanari/main/")
+        }
+    ));
 
     function genderDropdown() {
         return allGenders.map((gender) => (
@@ -135,15 +105,15 @@ export function CharacterForm(props: CharacterFormPropsType) {
                     )}
                 />
 
-                {/* FRUIT SELECTION FIELD */}
+                {/* RACE SELECTION FIELD */}
                 <FormField
                     control={form.control}
-                    name="selectedItem"
+                    name="raceOptions"
                     render={({field}) => (
                         <FormItem>
                             <Select>
                                 <FormControl>
-                                    <HorizontalSelector items={items} onValueChange={field.onChange}/>
+                                    <HorizontalSelector items={raceOptions} onValueChange={field.onChange}/>
                                 </FormControl>
                             </Select>
                             <FormMessage/>
@@ -185,26 +155,6 @@ export function CharacterForm(props: CharacterFormPropsType) {
                                     </SelectTrigger>
                                 </FormControl>
                                 <SelectContent>{ageDropdown()}</SelectContent>
-                            </Select>
-                            <FormMessage/>
-                        </FormItem>
-                    )}
-                />
-
-                {/* RACE SELECTION FIELD */}
-                <FormField
-                    control={form.control}
-                    name="raceName"
-                    render={({field}) => (
-                        <FormItem>
-                            <FormLabel>Pick a people</FormLabel>
-                            <Select onValueChange={field.onChange} defaultValue={field.value}>
-                                <FormControl>
-                                    <SelectTrigger>
-                                        <SelectValue placeholder="Click on me"/>
-                                    </SelectTrigger>
-                                </FormControl>
-                                <SelectContent>{raceDropdown()}</SelectContent>
                             </Select>
                             <FormMessage/>
                         </FormItem>
