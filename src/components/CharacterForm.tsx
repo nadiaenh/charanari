@@ -87,93 +87,99 @@ export function CharacterForm(props: CharacterFormPropsType) {
     }
 
     return (
-        <Form {...form}>
-            <form onSubmit={form.handleSubmit(onSubmit)}>
-                {/* NAME INPUT FIELD */}
-                <FormField
-                    control={form.control}
-                    name="characterName"
-                    render={({field}) => (
-                        <FormItem>
-                            <FormLabel>Character name</FormLabel>
-                            <Input
-                                {...field}
-                                placeholder="Write something here"
-                            />
-                            <FormMessage/>
-                        </FormItem>
-                    )}
-                />
+        <div className="bg-white p-8 shadow-2xl rounded-3xl flex justify-center items-center">
+            <Form {...form}>
+                <form onSubmit={form.handleSubmit(onSubmit)}>
+                    {/* NAME INPUT FIELD */}
+                    <FormField
+                        control={form.control}
+                        name="characterName"
+                        render={({field}) => (
+                            <FormItem className="mb-4">
+                                <FormLabel>Character name</FormLabel>
+                                <Input {...field} placeholder="Write something here"/>
+                                <FormMessage/>
+                            </FormItem>
+                        )}
+                    />
 
-                {/* RACE SELECTION FIELD */}
-                <FormField
-                    control={form.control}
-                    name="raceOptions"
-                    render={({field}) => (
-                        <FormItem>
-                            <Select>
-                                <FormControl>
-                                    <HorizontalSelector items={raceOptions} onValueChange={field.onChange}/>
-                                </FormControl>
-                            </Select>
-                            <FormMessage/>
-                        </FormItem>
-                    )}
-                />
+                    {/* RACE CONTAINER */}
+                    <div>
+                        <FormField
+                            control={form.control}
+                            name="raceOptions"
+                            render={({field}) => (
+                                <FormItem>
+                                    <Select>
+                                        <FormControl>
+                                            <HorizontalSelector items={raceOptions} onValueChange={field.onChange}/>
+                                        </FormControl>
+                                    </Select>
+                                    <FormMessage/>
+                                </FormItem>
+                            )}
+                        />
+                    </div>
 
-                {/* GENDER SELECTION FIELD */}
-                <FormField
-                    control={form.control}
-                    name="genderName"
-                    render={({field}) => (
-                        <FormItem>
-                            <FormLabel>Pick an essence</FormLabel>
-                            <Select onValueChange={field.onChange} defaultValue={field.value}>
-                                <FormControl>
-                                    <SelectTrigger>
-                                        <SelectValue placeholder="Click on me"/>
-                                    </SelectTrigger>
-                                </FormControl>
-                                <SelectContent>{genderDropdown()}</SelectContent>
-                            </Select>
-                            <FormMessage/>
-                        </FormItem>
-                    )}
-                />
+                    {/* GENDER AND AGE CONTAINER */}
+                    <div className="flex justify-between">
+                        <FormField
+                            control={form.control}
+                            name="genderName"
+                            render={({field}) => (
+                                <FormItem>
+                                    <Select onValueChange={field.onChange} defaultValue={field.value}>
+                                        <FormControl>
+                                            <SelectTrigger>
+                                                <SelectValue placeholder="Click on me"/>
+                                            </SelectTrigger>
+                                        </FormControl>
+                                        <SelectContent>{genderDropdown()}</SelectContent>
+                                    </Select>
+                                    <FormMessage/>
+                                </FormItem>
+                            )}
+                        />
 
-                {/* AGE SELECTION FIELD */}
-                <FormField
-                    control={form.control}
-                    name="ageName"
-                    render={({field}) => (
-                        <FormItem>
-                            <FormLabel>Pick a life stage</FormLabel>
-                            <Select onValueChange={field.onChange} defaultValue={field.value}>
-                                <FormControl>
-                                    <SelectTrigger>
-                                        <SelectValue placeholder="Click on me"/>
-                                    </SelectTrigger>
-                                </FormControl>
-                                <SelectContent>{ageDropdown()}</SelectContent>
-                            </Select>
-                            <FormMessage/>
-                        </FormItem>
-                    )}
-                />
+                        <FormField
+                            control={form.control}
+                            name="ageName"
+                            render={({field}) => (
+                                <FormItem>
+                                    <Select onValueChange={field.onChange} defaultValue={field.value}>
+                                        <FormControl>
+                                            <SelectTrigger>
+                                                <SelectValue placeholder="Click on me"/>
+                                            </SelectTrigger>
+                                        </FormControl>
+                                        <SelectContent>{ageDropdown()}</SelectContent>
+                                    </Select>
+                                    <FormMessage/>
+                                </FormItem>
+                            )}
+                        />
+                    </div>
 
-                {/* BUTTON CONTAINER */}
-                <div>
-                    {/* CLEAR FORM BUTTON */}
-                    <Button type="reset" onReset={form.reset as FormEventHandler<HTMLButtonElement>}>
-                        <Eraser/>
-                    </Button>
+                    {/* BUTTON CONTAINER */}
+                    <div className="flex justify-between">
+                        {/* CLEAR FORM BUTTON */}
+                        <Button
+                            type="reset"
+                            onReset={form.reset as FormEventHandler<HTMLButtonElement>}
+                            className="bg-transparent hover:bg-transparent focus:outline-none"
+                        >
+                            <Eraser className="text-gray-400 hover:text-gray-800" />
+                        </Button>
 
-                    {/* SUBMIT BUTTON */}
-                    <Button type="submit">
-                        <ChevronRight/>
-                    </Button>
-                </div>
-            </form>
-        </Form>
+                        <Button
+                            type="submit"
+                            className="shadow-lg bg-pink-300 hover:bg-pink-400"
+                        >
+                            <ChevronRight className="text-white" />
+                        </Button>
+                    </div>
+                </form>
+            </Form>
+        </div>
     );
 }
