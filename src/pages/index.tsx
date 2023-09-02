@@ -47,7 +47,8 @@ export default function Home() {
 
     // Form submission handler
     const onSubmit = (data: z.infer<typeof FormSchema>) => {
-        console.log("Character creation initiated...")
+        // console.log("Character creation initiated...")
+        console.log("onSubmit was triggered!");
 
         // Get the prompts for each attribute
         let prompts = "";
@@ -55,7 +56,7 @@ export default function Home() {
         const selectedAge = allAges.find(age => age.name === data.ageName);
         const selectedRace = allRaces.find(race => race.name === data.raceName);
         if (selectedGender && selectedAge && selectedRace) {
-            prompts = selectedGender.prompt + "," + selectedAge.prompt + "," + selectedRace.prompt;
+            prompts = selectedGender.prompt + selectedAge.prompt + selectedRace.prompt;
         }
         console.log(data);
         // const response = createCharacter({

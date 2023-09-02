@@ -8,16 +8,16 @@ interface LayoutProps {
 
 const Layout: React.FC<LayoutProps> = ({children}) => {
     return (
-        <div className="flex flex-col min-h-screen items-center justify-center bg-gray-100">
-            <header className="text-center py-4 border-b">
+        <div className="flex flex-col min-h-screen bg-pink-50 relative">
+            <header className="w-full flex justify-between items-center p-4 absolute top-0 right-0">
                 <h1 className="text-xl">Create Character Screen</h1>
-                <UserButton afterSignOutUrl="/"/>
+                <UserButton afterSignOutUrl="/" />
             </header>
-            <main className="w-full max-w-md p-4 rounded-lg shadow-md bg-white">
+            <main className="flex-grow flex flex-col items-center justify-center">
                 {children}
-                <Analytics/>
+                <Analytics />
             </main>
-            <footer className="text-center py-4 border-t">
+            <footer className="p-4 absolute bottom-0 left-0 right-0 flex justify-center">
                 <p>© {new Date().getFullYear()} Nadia Enhaili</p>
             </footer>
         </div>
