@@ -73,17 +73,17 @@ async function populateAges() {
         {
             name: "Ephemeral Youth",
             description: "In the bloom of fleeting youth, radiating boundless energy and untamed spirit. Their journeys are as vibrant as the colors of the dawn.",
-            prompt: "Youthful, Vigorous, Curious, Vibrant, Spirited"
+            prompt: "young adult, teenager, immature, "
         },
         {
             name: "Enigma of Ages",
             description: "Bearing the enigmatic weight of years, like ancient tomes filled with tales of bravery and heartache. Their faces hold echoes of the past and visions of the future.",
-            prompt: "Mature, Experienced, Wise, Depth, Visionary"
+            prompt: "adult, mature, strong, "
         },
         {
             name: "Echoes of Eternity",
             description: "Having danced with time, their existence is a tapestry woven with threads of ancient magic and timeless wisdom. Their presence is a whisper from the pages of history.",
-            prompt: "Elderly, Ancient, Mystical, Wisdom, Timeless"
+            prompt: "old person, elder, elderly, aged, "
         }
     ];
 
@@ -98,17 +98,17 @@ async function populateGenders() {
         {
             name: "Feminine",
             description: "Radiant and graceful, embodying the essence of femininity. They possess an ethereal charm that captivates with every movement and gesture.",
-            prompt: "Woman, Female"
+            prompt: "1girl, woman, feminine, female, "
         },
         {
             name: "Masculine",
             description: "Mighty and protective, representing the epitome of masculinity. They are the shield bearers and stalwart defenders of honor and strength.",
-            prompt: "Man, Male"
+            prompt: "1boy, man, masculine, male, "
         },
         {
             name: "Essenceless",
             description: "Balancing the spectrum, they harmonize diverse energies. Their presence is a union of contrasts, celebrating the beauty of both sides.",
-            prompt: "Androgynous, Non-binary"
+            prompt: "1person, androgynous, nonbinary, agender, "
         }
     ];
 
