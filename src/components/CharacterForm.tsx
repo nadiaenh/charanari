@@ -92,7 +92,7 @@ export function CharacterForm(props: CharacterFormPropsType) {
     };
 
     return (
-        <div className="bg-white p-8 shadow-2xl rounded-3xl flex justify-center items-center">
+        <div className="bg-white dark:bg-gray-700 p-8 shadow-2xl rounded-3xl flex justify-center items-center">
             <Form {...formHook}>
                 <form onSubmit={formHook.handleSubmit(onSubmit)}>
 
@@ -156,7 +156,7 @@ export function CharacterForm(props: CharacterFormPropsType) {
                     <div className="text-right">
                         <Button
                             type="submit"
-                            className="shadow-lg bg-pink-300 hover:bg-pink-400"
+                            className="shadow-lg bg-pink-300 hover:bg-pink-400 dark:bg-pink-700 dark:hover:bg-pink-800"
                         >
                             <ChevronRight className="text-white" />
                         </Button>
