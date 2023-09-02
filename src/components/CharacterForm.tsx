@@ -102,8 +102,7 @@ export function CharacterForm(props: CharacterFormPropsType) {
                         name="characterName"
                         render={({ field }) => (
                             <FormItem className="mb-4">
-                                <FormLabel>Character name</FormLabel>
-                                <Input onChange={field.onChange}/>
+                                <Input onChange={field.onChange} placeholder="Enter a name for your character"/>
                                 <FormMessage />
                             </FormItem>
                         )}
@@ -124,7 +123,7 @@ export function CharacterForm(props: CharacterFormPropsType) {
                                     <Select onValueChange={field.onChange} defaultValue={field.value}>
                                         <FormControl>
                                             <SelectTrigger>
-                                                <SelectValue placeholder="Click on me" />
+                                                <SelectValue placeholder="Pick an essence" />
                                             </SelectTrigger>
                                         </FormControl>
                                         <SelectContent>{genderDropdown()}</SelectContent>
@@ -142,7 +141,7 @@ export function CharacterForm(props: CharacterFormPropsType) {
                                     <Select onValueChange={field.onChange} defaultValue={field.value}>
                                         <FormControl>
                                             <SelectTrigger>
-                                                <SelectValue placeholder="Click on me" />
+                                                <SelectValue placeholder="Pick a life stage" />
                                             </SelectTrigger>
                                         </FormControl>
                                         <SelectContent>{ageDropdown()}</SelectContent>
