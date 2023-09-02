@@ -34,21 +34,22 @@ const HorizontalSelector: React.FC<HorizontalSelectorProps> = ({ items, onValueC
     };
 
     return (
-        <div className="flex items-center">
-            <button onClick={handlePrevClick} className="px-2 py-1 ml-2 bg-transparent" type="button">
+        <div id="selectorContainer" className="flex items-center">
+            <button type="button" onClick={handlePrevClick} className="px-2 py-1 ml-2 bg-transparent">
                 <ChevronLeft />
             </button>
-            <div className="flex items-center overflow-hidden">
+            <div id="itemContainer" className="flex items-center overflow-hidden">
                 {[-1, 0, 1].map((offset) => {
                     const index = (selectedItemIndex + offset + items.length) % items.length;
                     const isSelected = offset === 0;
 
                     return (
                         <div
+                            id="imageContainer"
                             key={items[index].id}
                             className={`${
                                 isSelected ? 'z-10 transform scale-125' : 'z-0 translate-x-4'
-                            } transition-all duration-300 ease-in-out`}
+                            } transition-all duration-300 ease-in-out p-6`}
                             style={{
                                 marginLeft: offset === -1 ? '-2rem' : '0',
                                 marginRight: offset === 1 ? '-2rem' : '0',
@@ -59,8 +60,8 @@ const HorizontalSelector: React.FC<HorizontalSelectorProps> = ({ items, onValueC
                             <img
                                 src={items[index].image}
                                 alt={items[index].name}
-                                className={`w-32 h-32 object-cover rounded-lg ${
-                                    isSelected ? 'opacity-100' : 'opacity-50'
+                                className={`w-36 h-36 object-cover rounded-xl shadow-xl ${
+                                    isSelected ? 'opacity-100 border border-black' : 'opacity-50'
                                 }`}
                                 onClick={() => handleItemSelected(items[index])}
                             />

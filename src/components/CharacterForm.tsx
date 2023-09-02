@@ -154,12 +154,14 @@ export function CharacterForm(props: CharacterFormPropsType) {
                     </div>
 
                     {/* SUBMIT BUTTON */}
-                    <Button
-                        type="submit"
-                        className="shadow-lg bg-pink-300 hover:bg-pink-400"
-                    >
-                        <ChevronRight className="text-white" />
-                    </Button>
+                    <div className="text-right">
+                        <Button
+                            type="submit"
+                            className="shadow-lg bg-pink-300 hover:bg-pink-400"
+                        >
+                            <ChevronRight className="text-white" />
+                        </Button>
+                    </div>
 
                 </form>
             </Form>
