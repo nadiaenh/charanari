@@ -16,42 +16,49 @@ async function nukeAllRows() {
 }
 
 async function populateRaces() {
-    type raceDataType = { name: string, description: string, prompt: string };
+    type raceDataType = { name: string, description: string, prompt: string, imagePath: string };
     const data: raceDataType[] = [
         {
             name: "Elf",
             description: "Graceful and ancient beings of the forest, elves possess pointed ears and ethereal beauty, with a deep connection to nature and wisdom.",
-            prompt: "Elf, Elven, Pointy ears, Ancient, Forest, Ethereal, Nature"
+            prompt: "elf, elven, pointed ears, elaborate jewelry, blonde or silver hair, sharp eyes, green eyes, green and brown attire, moonlight, forest, ",
+            imagePath: "~/public/images/elf.png"
         },
         {
             name: "Celestial",
             description: "Luminous and divine, celestials are radiant beings of light, often depicted with wings and an aura of purity and spiritual power.",
-            prompt: "Celestial being, Divine, Radiant, Wings, Halo"
+            prompt: "celestial being, stars sun cosmos, glowing hands, angel wings, celestial symbols, divine, halo, mature, serene, calm, ",
+            imagePath: "~/public/images/celestial.png"
         },
         {
             name: "Djinn",
             description: "Born from the winds, djinn are elemental spirits of air, characterized by their ever-changing forms and an enigmatic presence that carries whispers of freedom.",
-            prompt: "Elemental, Air, Whispers, Freedom, Enigmatic"
+            prompt: "djinn, demon, dark eyes, arabian attire, dark hair, sand, desert, sandstorm, night sky, smoke and fire, ",
+            imagePath: "~/public/images/djinn.png"
         },
         {
             name: "Genasi",
             description: "Embodiments of elemental forces, genasi are humanoids intertwined with elements like fire, water, air, or earth, bestowing them with unique features and abilities.",
-            prompt: "Elemental, Fire, Water, Air, Earth, Unique"
+            prompt: "genasi, elemental, earth powers, stone, rocks, amber eyes, linen shirt, strong, ",
+            imagePath: "~/public/images/genasi.png"
         },
         {
             name: "Shapeshifter",
             description: "Fluid and versatile, shapeshifters possess the gift of transformation, seamlessly morphing into different appearances and creatures with uncanny adaptability.",
-            prompt: "Versatile, Transformation, Morphing, Adaptability"
+            prompt: "serious, cloak, shapeshifter, reptilian eyes, long black hair, noble, pale skin, mysterious, ",
+            imagePath: "~/public/images/shapeshifter.png"
         },
         {
             name: "Naiad",
             description: "Emerging from waters' embrace, naiads are water nymphs of beauty and serenity, embodying the essence of lakes, rivers, and streams in their form.",
-            prompt: "Water, Nymph, Serenity, Lakes, Rivers, Streams"
+            prompt: "naiad, blue eyes pearls, seashell and lotus attire, luminescent scales, water-swept hair, webbed ears, waterfall scenery, ripples, blue skin, ",
+            imagePath: "~/public/images/naiad.png"
         },
         {
             name: "Dragonborn",
             description: "Bearing the lineage of dragons, dragonborn are majestic and fierce beings, often with scaled features, embodying the power of fire and the spirit of the draconic.",
-            prompt: "Dragonborn, Majestic, Fierce, Half-dragon person, Fire"
+            prompt: "scaly skin, majestic, regal, serious expression, gold and red attire, dragon wings, strong, gold armor, fiery scenery, ",
+            imagePath: "~/public/images/dragonborn.png"
         }
     ];
 

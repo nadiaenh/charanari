@@ -65,6 +65,7 @@ Uses [Prisma with Supabase](https://www.prisma.io/docs/guides/database/supabase)
 - [X] Improve the UI
 - [X] Set up Clerk authentication
 - [X] Set up (temporary?) domain name https://www.charanari.me/  
+- [X] Add images for character race selection
 - [ ] Set up getCharacterById -> display it in page
 - [ ] Prompt engineering for character images
 - [ ] Improve the UI much more ...

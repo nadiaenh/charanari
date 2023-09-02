@@ -7,7 +7,7 @@ import axios from "axios";
 import {replicate} from "~/server/replicateai";
 
 const model = "cjwbw/anything-v3-better-vae:09a5805203f4c12da649ec1923bb7729517ca25fcac790e640eaa9ed66573b65";
-const BASE_PROMPT = "best quality, illustration, beautiful detailed, colorful, face and torso, sfw, ";
+const BASE_PROMPT = "masterpiece, illustration, beautiful detailed, intricate details, sfw, face and torso, looking at the camera, ";
 const NEGATIVE_PROMPT = "lowres, bad anatomy, bad hands, text, error, missing fingers, extra digit, fewer digits, cropped, worst quality, low quality, jpeg artifacts, signature, watermark, username, blurry, artist name, nudity, nsfw";
 
 async function generateImage(characterPrompts: string): Promise<string | undefined> {
