@@ -20,12 +20,13 @@ import {
     SelectValue,
 } from "~/components/ui/select";
 import type {RouterOutputs} from "~/utils/api";
+import {ChevronRight, Eraser} from "lucide-react";
+import HorizontalSelector from "~/components/ui/HorizontalSelect";
 
-// Define the type of the data returned by the getAllRaces endpoint
+// Type definitions
 type getAllRacesOutputType = RouterOutputs["character"]["getAllRaces"];
 type getAllGendersOutputType = RouterOutputs["character"]["getAllGenders"];
 type getAllAgesOutputType = RouterOutputs["character"]["getAllAges"];
-
 type CharacterFormPropsType = {
     allRaces: getAllRacesOutputType;
     allGenders: getAllGendersOutputType;
@@ -54,7 +55,12 @@ export const FormSchema = z.object({
 
     raceName: z.string({
         required_error: "Please select a race from the dropdown menu.",
-    })
+    }),
+    selectedItem: z.object({
+        id: z.number(),
+        name: z.string(),
+        image: z.string(),
+    }),
 });
 
 export function CharacterForm(props: CharacterFormPropsType) {
@@ -62,6 +68,29 @@ export function CharacterForm(props: CharacterFormPropsType) {
     const form = useForm<z.infer<typeof FormSchema>>({
         resolver: zodResolver(FormSchema),
     });
+
+    const items = [
+        {
+            id: 1,
+            name: 'Item 1',
+            image: 'https://domf5oio6qrcr.cloudfront.net/medialibrary/6372/202ebeef-6657-44ec-8fff-28352e1f5999.jpg'
+        },
+        {
+            id: 2,
+            name: 'Item 2',
+            image: 'https://static.vecteezy.com/system/resources/previews/005/634/168/original/strawberry-icon-isolated-on-white-illustration-free-vector.jpg'
+        },
+        {
+            id: 3,
+            name: 'Item 3',
+            image: 'https://domf5oio6qrcr.cloudfront.net/medialibrary/6372/202ebeef-6657-44ec-8fff-28352e1f5999.jpg'
+        },
+        {
+            id: 4,
+            name: 'Item 4',
+            image: 'https://static.vecteezy.com/system/resources/previews/005/634/168/original/strawberry-icon-isolated-on-white-illustration-free-vector.jpg'
+        },
+    ];
 
     function raceDropdown() {
         return allRaces.map((race) => (
@@ -101,6 +130,22 @@ export function CharacterForm(props: CharacterFormPropsType) {
                                 {...field}
                                 placeholder="Write something here"
                             />
+                            <FormMessage/>
+                        </FormItem>
+                    )}
+                />
+
+                {/* FRUIT SELECTION FIELD */}
+                <FormField
+                    control={form.control}
+                    name="selectedItem"
+                    render={({field}) => (
+                        <FormItem>
+                            <Select>
+                                <FormControl>
+                                    <HorizontalSelector items={items} onValueChange={field.onChange}/>
+                                </FormControl>
+                            </Select>
                             <FormMessage/>
                         </FormItem>
                     )}
@@ -167,24 +212,16 @@ export function CharacterForm(props: CharacterFormPropsType) {
                 />
 
                 {/* BUTTON CONTAINER */}
-                <div className="mt-4 flex justify-between">
+                <div>
                     {/* CLEAR FORM BUTTON */}
-                    <div>
-                        <Button
-                            type="reset"
-                            className="bg-gray-300 hover:bg-gray-400"
-                            onReset={form.reset as FormEventHandler<HTMLButtonElement>}
-                        >
-                            Clear
-                        </Button>
-                    </div>
+                    <Button type="reset" onReset={form.reset as FormEventHandler<HTMLButtonElement>}>
+                        <Eraser/>
+                    </Button>
 
                     {/* SUBMIT BUTTON */}
-                    <div>
-                        <Button type="submit" className="bg-blue-500 hover:bg-blue-600">
-                            Create
-                        </Button>
-                    </div>
+                    <Button type="submit">
+                        <ChevronRight/>
+                    </Button>
                 </div>
             </form>
         </Form>

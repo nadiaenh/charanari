@@ -70,6 +70,16 @@ Uses [Prisma with Supabase](https://www.prisma.io/docs/guides/database/supabase)
 - [ ] Prompt engineering for character images
 - [ ] Improve the UI much more ...
 - [ ] Customize the sign-in page
+- [X] Set up Clerk authentication
+- [X] Create horizontal visual selector component
+- [ ] Set up getCharacterById -> display it in page
+
+**🔜 Up next:**
+
+- [ ] Set the path for the avatar based on the username OR save the full file path in the database
+- [ ] UI improvements:
+    - Find a cute [free loading animation gif](https://lottiefiles.com/featured) to use as my loading screen - put it
+- [ ] Add try/catches in all my logic
 
 **👵🏽 Future, future work:**
 
