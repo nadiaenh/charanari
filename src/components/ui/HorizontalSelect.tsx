@@ -19,26 +19,23 @@ const HorizontalSelector: React.FC<HorizontalSelectorProps> = ({ items, onValueC
         const newIndex = (selectedItemIndex - 1 + items.length) % items.length;
         setSelectedItemIndex(newIndex);
         onValueChange(items[newIndex].name);
-        console.log("handlePrevClick");
     };
 
     const handleNextClick = () => {
         const newIndex = (selectedItemIndex + 1) % items.length;
         setSelectedItemIndex(newIndex);
         onValueChange(items[newIndex].name);
-        console.log("handleNextClick");
     };
 
     const handleItemSelected = (item: Item) => {
         const newIndex = items.indexOf(item);
         setSelectedItemIndex(newIndex);
         onValueChange(item.name);
-        console.log("handleItemSelected");
     };
 
     return (
         <div className="flex items-center">
-            <button onClick={handlePrevClick} className="px-2 py-1 ml-2 bg-transparent">
+            <button onClick={handlePrevClick} className="px-2 py-1 ml-2 bg-transparent" type="button">
                 <ChevronLeft />
             </button>
             <div className="flex items-center overflow-hidden">
@@ -72,7 +69,7 @@ const HorizontalSelector: React.FC<HorizontalSelectorProps> = ({ items, onValueC
                     );
                 })}
             </div>
-            <button onClick={handleNextClick} className="px-2 py-1 ml-2 bg-transparent">
+            <button type="button" onClick={handleNextClick} className="px-2 py-1 ml-2 bg-transparent">
                 <ChevronRight />
             </button>
         </div>

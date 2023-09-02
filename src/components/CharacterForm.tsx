@@ -58,7 +58,7 @@ export const FormSchema = z.object({
 export function CharacterForm(props: CharacterFormPropsType) {
     const { allRaces, allGenders, allAges } = props;
 
-    const form = useForm<z.infer<typeof FormSchema>>({
+    const formHook = useForm<z.infer<typeof FormSchema>>({
         resolver: zodResolver(FormSchema),
     });
 
@@ -93,33 +93,31 @@ export function CharacterForm(props: CharacterFormPropsType) {
 
     return (
         <div className="bg-white p-8 shadow-2xl rounded-3xl flex justify-center items-center">
-            <Form {...form}>
-                <form onSubmit={form.handleSubmit(onSubmit)}>
+            <Form {...formHook}>
+                <form onSubmit={formHook.handleSubmit(onSubmit)}>
 
                     {/* NAME INPUT FIELD */}
                     <FormField
-                        control={form.control}
+                        control={formHook.control}
                         name="characterName"
                         render={({ field }) => (
                             <FormItem className="mb-4">
                                 <FormLabel>Character name</FormLabel>
-                                <Input {...field} placeholder="What is your character's name?" />
+                                <Input onChange={field.onChange}/>
                                 <FormMessage />
                             </FormItem>
                         )}
                     />
 
                     {/* RACE CONTAINER */}
-                    <div>
-                        <HorizontalSelector items={raceOptions} onValueChange={(item) => {
-                            form.setValue("raceName", item);
-                        }}/>
-                    </div>
+                    <HorizontalSelector items={raceOptions} onValueChange={(item) => {
+                        formHook.setValue("raceName", item);
+                    }}/>
 
                     {/* GENDER AND AGE CONTAINER */}
                     <div className="flex justify-between">
                         <FormField
-                            control={form.control}
+                            control={formHook.control}
                             name="genderName"
                             render={({ field }) => (
                                 <FormItem>
@@ -137,7 +135,7 @@ export function CharacterForm(props: CharacterFormPropsType) {
                         />
 
                         <FormField
-                            control={form.control}
+                            control={formHook.control}
                             name="ageName"
                             render={({ field }) => (
                                 <FormItem>
@@ -155,24 +153,14 @@ export function CharacterForm(props: CharacterFormPropsType) {
                         />
                     </div>
 
-                    {/* BUTTON CONTAINER */}
-                    <div className="flex justify-between">
-                        {/* CLEAR FORM BUTTON */}
-                        <Button
-                            type="reset"
-                            onReset={form.reset as FormEventHandler<HTMLButtonElement>}
-                            className="bg-transparent hover:bg-transparent focus:outline-none"
-                        >
-                            <Eraser className="text-gray-400 hover:text-gray-800" />
-                        </Button>
+                    {/* SUBMIT BUTTON */}
+                    <Button
+                        type="submit"
+                        className="shadow-lg bg-pink-300 hover:bg-pink-400"
+                    >
+                        <ChevronRight className="text-white" />
+                    </Button>
 
-                        <Button
-                            type="submit"
-                            className="shadow-lg bg-pink-300 hover:bg-pink-400"
-                        >
-                            <ChevronRight className="text-white" />
-                        </Button>
-                    </div>
                 </form>
             </Form>
         </div>
