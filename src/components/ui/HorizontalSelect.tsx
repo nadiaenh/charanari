@@ -2,7 +2,7 @@ import React, {useState} from 'react';
 import {ChevronRight, ChevronLeft} from 'lucide-react';
 
 interface Item {
-    id: number;
+    id: string;
     name: string;
     image: string;
 }
@@ -49,7 +49,7 @@ const HorizontalSelector: React.FC<HorizontalSelectorProps> = ({ items, onValueC
                             key={items[index].id}
                             className={`${
                                 isSelected ? 'z-10 transform scale-125' : 'z-0 translate-x-4'
-                            } transition-all duration-300 ease-in-out p-6`}
+                            } transition-all duration-300 ease-in-out py-6`}
                             style={{
                                 marginLeft: offset === -1 ? '-2rem' : '0',
                                 marginRight: offset === 1 ? '-2rem' : '0',
