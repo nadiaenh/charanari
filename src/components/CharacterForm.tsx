@@ -1,6 +1,6 @@
 import React, { type FormEventHandler } from "react";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { useForm } from "react-hook-form";
+import {SubmitHandler, useForm} from "react-hook-form";
 import * as z from "zod";
 import { Input } from "~/components/ui/input";
 import { Button } from "~/components/ui/button";
@@ -86,7 +86,7 @@ export function CharacterForm(props: CharacterFormPropsType) {
         ));
     }
 
-    const onSubmit = (data: any) => {
+    const onSubmit: SubmitHandler<z.infer<typeof FormSchema>> = (data) => {
         console.log("onSubmit was triggered!");
         console.log(data);
     };

@@ -26,6 +26,7 @@ const config = {
         "@typescript-eslint/no-unused-vars": ["warn", {argsIgnorePattern: "^_"}],
         "@typescript-eslint/no-empty-interface": ["warn"],
         "@typescript-eslint/no-misused-promises": ["warn"],
+        "@typescript-eslint/no-unnecessary-type-assertion": ["warn"],
     },
 };
 

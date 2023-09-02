@@ -1,3 +1,5 @@
+//
+
 import React, {useState} from 'react';
 import {ChevronRight, ChevronLeft} from 'lucide-react';
 
@@ -18,13 +20,13 @@ const HorizontalSelector: React.FC<HorizontalSelectorProps> = ({ items, onValueC
     const handlePrevClick = () => {
         const newIndex = (selectedItemIndex - 1 + items.length) % items.length;
         setSelectedItemIndex(newIndex);
-        onValueChange(items[newIndex].name);
+        onValueChange(items![newIndex]!.name);
     };
 
     const handleNextClick = () => {
         const newIndex = (selectedItemIndex + 1) % items.length;
         setSelectedItemIndex(newIndex);
-        onValueChange(items[newIndex].name);
+        onValueChange(items![newIndex]!.name);
     };
 
     const handleItemSelected = (item: Item) => {
@@ -46,7 +48,7 @@ const HorizontalSelector: React.FC<HorizontalSelectorProps> = ({ items, onValueC
                     return (
                         <div
                             id="imageContainer"
-                            key={items[index].id}
+                            key={items![index]!.id}
                             className={`${
                                 isSelected ? 'z-10 transform scale-125' : 'z-0 translate-x-4'
                             } transition-all duration-300 ease-in-out py-6`}
@@ -58,14 +60,14 @@ const HorizontalSelector: React.FC<HorizontalSelectorProps> = ({ items, onValueC
                             }}
                         >
                             <img
-                                src={items[index].image}
-                                alt={items[index].name}
+                                src={items![index]!.image}
+                                alt={items![index]!.name}
                                 className={`w-36 h-36 object-cover rounded-xl shadow-xl ${
                                     isSelected ? 'opacity-100 border border-black' : 'opacity-50'
                                 }`}
-                                onClick={() => handleItemSelected(items[index])}
+                                onClick={() => handleItemSelected(items![index]!)}
                             />
-                            <p className="text-center">{items[index].name}</p>
+                            <p className="text-center">{items![index]!.name}</p>
                         </div>
                     );
                 })}
