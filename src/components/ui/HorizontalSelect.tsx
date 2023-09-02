@@ -9,25 +9,31 @@ interface Item {
 
 interface HorizontalSelectorProps {
     items: Item[];
-    onValueChange: (selectedItem: Item) => void;
+    onValueChange: (selectedItem: string) => void;
 }
 
 const HorizontalSelector: React.FC<HorizontalSelectorProps> = ({ items, onValueChange }) => {
     const [selectedItemIndex, setSelectedItemIndex] = useState(0);
 
     const handlePrevClick = () => {
-        setSelectedItemIndex((prevIndex) => (prevIndex - 1 + items.length) % items.length);
-        onValueChange(items[(selectedItemIndex - 1 + items.length) % items.length]);
+        const newIndex = (selectedItemIndex - 1 + items.length) % items.length;
+        setSelectedItemIndex(newIndex);
+        onValueChange(items[newIndex].name);
+        console.log("handlePrevClick");
     };
 
     const handleNextClick = () => {
-        setSelectedItemIndex((prevIndex) => (prevIndex + 1) % items.length);
-        onValueChange(items[(selectedItemIndex + 1 + items.length) % items.length]);
+        const newIndex = (selectedItemIndex + 1) % items.length;
+        setSelectedItemIndex(newIndex);
+        onValueChange(items[newIndex].name);
+        console.log("handleNextClick");
     };
 
     const handleItemSelected = (item: Item) => {
-        setSelectedItemIndex(items.indexOf(item));
-        onValueChange(item);
+        const newIndex = items.indexOf(item);
+        setSelectedItemIndex(newIndex);
+        onValueChange(item.name);
+        console.log("handleItemSelected");
     };
 
     return (

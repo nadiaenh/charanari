@@ -45,30 +45,6 @@ export default function Home() {
         )
     }
 
-    // Form submission handler
-    const onSubmit = (data: z.infer<typeof FormSchema>) => {
-        // console.log("Character creation initiated...")
-        console.log("onSubmit was triggered!");
-
-        // Get the prompts for each attribute
-        let prompts = "";
-        const selectedGender = allGenders.find(gender => gender.name === data.genderName);
-        const selectedAge = allAges.find(age => age.name === data.ageName);
-        const selectedRace = allRaces.find(race => race.name === data.raceName);
-        if (selectedGender && selectedAge && selectedRace) {
-            prompts = selectedGender.prompt + selectedAge.prompt + selectedRace.prompt;
-        }
-        console.log(data);
-        // const response = createCharacter({
-        //     characterName: data.characterName,
-        //     raceName: data.raceName,
-        //     ageName: data.ageName,
-        //     genderName: data.genderName,
-        //     prompts: prompts
-        // });
-        // console.log(response);
-    };
-
     if (createCharacterIsLoading) {
         return (
             <Layout>
@@ -92,7 +68,7 @@ export default function Home() {
 
     return (
         <Layout>
-            <CharacterForm allRaces={allRaces} allAges={allAges} allGenders={allGenders} onSubmit={onSubmit}/>
+            <CharacterForm allRaces={allRaces} allAges={allAges} allGenders={allGenders}/>
         </Layout>
     );
 }

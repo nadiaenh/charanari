@@ -18,7 +18,7 @@ const Layout: React.FC<LayoutProps> = ({children}) => {
                 <Analytics />
             </main>
             <footer className="p-4 absolute bottom-0 left-0 right-0 flex justify-center">
-                <p>© {new Date().getFullYear()} Nadia Enhaili</p>
+                <p>© {new Date().getFullYear()} Charanari</p>
             </footer>
         </div>
     );

@@ -1,9 +1,9 @@
-import React, {type FormEventHandler} from "react";
-import {zodResolver} from "@hookform/resolvers/zod";
-import {useForm} from "react-hook-form";
+import React, { type FormEventHandler } from "react";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { useForm } from "react-hook-form";
 import * as z from "zod";
-import {Input} from "~/components/ui/input";
-import {Button} from "~/components/ui/button";
+import { Input } from "~/components/ui/input";
+import { Button } from "~/components/ui/button";
 import {
     Form,
     FormControl,
@@ -19,8 +19,8 @@ import {
     SelectTrigger,
     SelectValue,
 } from "~/components/ui/select";
-import type {RouterOutputs} from "~/utils/api";
-import {ChevronRight, Eraser} from "lucide-react";
+import type { RouterOutputs } from "~/utils/api";
+import { ChevronRight, Eraser } from "lucide-react";
 import HorizontalSelector from "~/components/ui/HorizontalSelect";
 
 // Type definitions
@@ -31,7 +31,6 @@ type CharacterFormPropsType = {
     allRaces: getAllRacesOutputType;
     allGenders: getAllGendersOutputType;
     allAges: getAllAgesOutputType;
-    onSubmit: (data: z.infer<typeof FormSchema>) => void;
 };
 
 export const FormSchema = z.object({
@@ -39,8 +38,8 @@ export const FormSchema = z.object({
         .string({
             required_error: "Please enter a name for your character.",
         })
-        .min(3, {message: "Name must be at least 3 characters long."})
-        .max(20, {message: "Name must be at most 20 characters long."})
+        .min(3, { message: "Name must be at least 3 characters long." })
+        .max(20, { message: "Name must be at most 20 characters long." })
         .regex(/^[a-zA-Z]+$/, {
             message: "Name must only contain alphabet characters.",
         }),
@@ -57,7 +56,8 @@ export const FormSchema = z.object({
 });
 
 export function CharacterForm(props: CharacterFormPropsType) {
-    const {allRaces, allGenders, allAges, onSubmit} = props;
+    const { allRaces, allGenders, allAges } = props;
+
     const form = useForm<z.infer<typeof FormSchema>>({
         resolver: zodResolver(FormSchema),
     });
@@ -86,39 +86,34 @@ export function CharacterForm(props: CharacterFormPropsType) {
         ));
     }
 
+    const onSubmit = (data: any) => {
+        console.log("onSubmit was triggered!");
+        console.log(data);
+    };
+
     return (
         <div className="bg-white p-8 shadow-2xl rounded-3xl flex justify-center items-center">
             <Form {...form}>
                 <form onSubmit={form.handleSubmit(onSubmit)}>
+
                     {/* NAME INPUT FIELD */}
                     <FormField
                         control={form.control}
                         name="characterName"
-                        render={({field}) => (
+                        render={({ field }) => (
                             <FormItem className="mb-4">
                                 <FormLabel>Character name</FormLabel>
-                                <Input {...field} placeholder="Write something here"/>
-                                <FormMessage/>
+                                <Input {...field} placeholder="What is your character's name?" />
+                                <FormMessage />
                             </FormItem>
                         )}
                     />
 
                     {/* RACE CONTAINER */}
                     <div>
-                        <FormField
-                            control={form.control}
-                            name="raceOptions"
-                            render={({field}) => (
-                                <FormItem>
-                                    <Select>
-                                        <FormControl>
-                                            <HorizontalSelector items={raceOptions} onValueChange={field.onChange}/>
-                                        </FormControl>
-                                    </Select>
-                                    <FormMessage/>
-                                </FormItem>
-                            )}
-                        />
+                        <HorizontalSelector items={raceOptions} onValueChange={(item) => {
+                            form.setValue("raceName", item);
+                        }}/>
                     </div>
 
                     {/* GENDER AND AGE CONTAINER */}
@@ -126,17 +121,17 @@ export function CharacterForm(props: CharacterFormPropsType) {
                         <FormField
                             control={form.control}
                             name="genderName"
-                            render={({field}) => (
+                            render={({ field }) => (
                                 <FormItem>
                                     <Select onValueChange={field.onChange} defaultValue={field.value}>
                                         <FormControl>
                                             <SelectTrigger>
-                                                <SelectValue placeholder="Click on me"/>
+                                                <SelectValue placeholder="Click on me" />
                                             </SelectTrigger>
                                         </FormControl>
                                         <SelectContent>{genderDropdown()}</SelectContent>
                                     </Select>
-                                    <FormMessage/>
+                                    <FormMessage />
                                 </FormItem>
                             )}
                         />
@@ -144,17 +139,17 @@ export function CharacterForm(props: CharacterFormPropsType) {
                         <FormField
                             control={form.control}
                             name="ageName"
-                            render={({field}) => (
+                            render={({ field }) => (
                                 <FormItem>
                                     <Select onValueChange={field.onChange} defaultValue={field.value}>
                                         <FormControl>
                                             <SelectTrigger>
-                                                <SelectValue placeholder="Click on me"/>
+                                                <SelectValue placeholder="Click on me" />
                                             </SelectTrigger>
                                         </FormControl>
                                         <SelectContent>{ageDropdown()}</SelectContent>
                                     </Select>
-                                    <FormMessage/>
+                                    <FormMessage />
                                 </FormItem>
                             )}
                         />
