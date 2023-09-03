@@ -10,10 +10,8 @@ const model = "cjwbw/anything-v3-better-vae:09a5805203f4c12da649ec1923bb7729517c
 const BASE_PROMPT = "masterpiece, illustration, beautiful detailed, intricate details, sfw, face and torso, looking at the camera, ";
 const NEGATIVE_PROMPT = "lowres, bad anatomy, bad hands, text, error, missing fingers, extra digit, fewer digits, cropped, worst quality, low quality, jpeg artifacts, signature, watermark, username, blurry, artist name, nudity, nsfw";
 
-async function generateImage(characterPrompts: string): Promise<string | undefined> {
+async function generateImage(prompt: string): Promise<string | undefined> {
     try {
-        const prompt = BASE_PROMPT + characterPrompts;
-
         const input = {
             input: {
                 prompt: prompt,
@@ -88,6 +86,39 @@ export const characterRouter = createTRPCRouter({
     // Get all possibly age options in the database
     getAllAges: publicProcedure.query(({ctx}) => {
         return ctx.prisma.age.findMany();
+    }),
+
+    // Get the prompts for a character
+    getPrompts: publicProcedure.input(
+        z.object({
+            raceName: z.string(),
+            ageName: z.string(),
+            genderName: z.string(),
+        })
+    ).mutation(async ({ctx, input}) => {
+        try {
+            const racePrompt = await ctx.prisma.race.findUnique({
+                where: {
+                    name: input.raceName,
+                },
+            });
+            const agePrompt = await ctx.prisma.age.findUnique({
+                where: {
+                    name: input.ageName,
+                }
+            });
+            const genderPrompt = await ctx.prisma.gender.findUnique({
+                where: {
+                    name: input.genderName,
+                }
+            });
+
+            return BASE_PROMPT + racePrompt?.prompt + agePrompt?.prompt + genderPrompt?.prompt;
+
+        } catch (error) {
+            console.error("Error getting character prompts:", error);
+            throw error;
+        }
     }),
 
     // Create a new character
