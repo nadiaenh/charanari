@@ -63,23 +63,14 @@ Uses [Prisma with Supabase](https://www.prisma.io/docs/guides/database/supabase)
 
 - [X] Add more form fields + update database schema accordingly
 - [X] Improve the UI
-- [X] Set up Clerk authentication
 - [X] Set up (temporary?) domain name https://www.charanari.me/  
 - [X] Add images for character race selection
-- [ ] Set up getCharacterById -> display it in page
-- [ ] Prompt engineering for character images
-- [ ] Improve the UI much more ...
-- [ ] Customize the sign-in page
-- [X] Set up Clerk authentication
+- [X] ~~Set up Clerk authentication~~ rolled this back for now due to issues
 - [X] Create horizontal visual selector component
 - [ ] Set up getCharacterById -> display it in page
-
-**🔜 Up next:**
-
-- [ ] Set the path for the avatar based on the username OR save the full file path in the database
-- [ ] UI improvements:
-    - Find a cute [free loading animation gif](https://lottiefiles.com/featured) to use as my loading screen - put it
-- [ ] Add try/catches in all my logic
+- [ ] Prompt engineering for character images
+- [ ] Customize the sign-in page
+- [ ] Set up getCharacterById -> display it in page
 
 **👵🏽 Future, future work:**
 
