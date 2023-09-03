@@ -13,6 +13,8 @@ async function main() {
 async function nukeAllRows() {
     await prisma.character.deleteMany({});
     await prisma.race.deleteMany({});
+    await prisma.age.deleteMany({});
+    await prisma.gender.deleteMany({});
 }
 
 async function populateRaces() {
