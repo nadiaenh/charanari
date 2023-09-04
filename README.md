@@ -67,8 +67,8 @@ Uses [Prisma with Supabase](https://www.prisma.io/docs/guides/database/supabase)
 - [X] Add images for character race selection
 - [X] ~~Set up Clerk authentication~~ rolled this back for now due to issues
 - [X] Create horizontal visual selector component
+- [X] Prompt engineering for character images
 - [ ] Set up getCharacterById -> display it in page
-- [ ] Prompt engineering for character images
 - [ ] Customize the sign-in page
 - [ ] Set up getCharacterById -> display it in page
 
