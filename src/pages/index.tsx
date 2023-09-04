@@ -77,6 +77,7 @@ export default function Home() {
     // Fetch character prompts from database
     const {
         mutate: getPrompts,
+        data: prompts
     } = api.character.getPrompts.useMutation();
 
     // Fetch race, age, and gender data from database
@@ -128,13 +129,11 @@ export default function Home() {
         )
     }
 
-    const raceOptions = allRaces.map((race) => (
-        {
-            id: race.id,
-            name: race.name,
-            image: race.imagePath.replace(/^~\//, "https://raw.githubusercontent.com/nadiaenh/charanari/main/")
-        }
-    ));
+    const raceOptions = allRaces.map((race) => ({
+        id: race.id,
+        name: race.name,
+        image: race.imagePath.replace(/^~\//, "https://raw.githubusercontent.com/nadiaenh/charanari/main/")
+    }));
 
     const genderOptions = allGenders.map((gender) => (
         <SelectItem key={gender.id} value={gender.name}>
@@ -149,14 +148,30 @@ export default function Home() {
     ));
 
     const onSubmit: SubmitHandler<z.infer<typeof FormSchema>> = (data) => {
-        console.log("onSubmit was triggered!");
-        console.log(data);
-        const prompts = getPrompts({
+
+        console.log("Form submitted with data: ", data);
+        getPrompts({
             raceName: data.raceName,
+            ageName: data.ageName,
             genderName: data.genderName,
-            ageName: data.ageName
         });
-        console.log(prompt);
+
+        if (prompts) {
+            console.log("Prompts for character: ", prompts);
+            createCharacter({
+                characterName: data.characterName,
+                raceName: data.raceName,
+                genderName: data.genderName,
+                ageName: data.ageName,
+                prompts: prompts
+            });
+        } else {
+            throw new Error("Error: could not fetch character prompts.");
+        }
+
+        if (createdCharacterId) {
+            console.log("Created character ID: ", createdCharacterId);
+        }
     };
 
     return (

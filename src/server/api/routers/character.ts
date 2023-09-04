@@ -89,14 +89,17 @@ export const characterRouter = createTRPCRouter({
     }),
 
     // Get the prompts for a character
-    getPrompts: publicProcedure.input(
-        z.object({
-            raceName: z.string(),
-            ageName: z.string(),
-            genderName: z.string(),
-        })
+    getPrompts: publicProcedure
+        .input(
+            z.object({
+                raceName: z.string(),
+                ageName: z.string(),
+                genderName: z.string(),
+            })
     ).mutation(async ({ctx, input}) => {
         try {
+            console.log("Getting prompts for character...");
+
             const racePrompt = await ctx.prisma.race.findUnique({
                 where: {
                     name: input.raceName,
