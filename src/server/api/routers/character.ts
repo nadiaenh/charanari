@@ -60,12 +60,17 @@ export const characterRouter = createTRPCRouter({
                 characterId: z.string(),
             })
         )
-        .query(({ctx, input}) => {
-            return ctx.prisma.character.findUnique({
+        .query(async ({ctx, input}) => {
+            const character = ctx.prisma.character.findUnique({
                 where: {
                     id: input.characterId,
                 },
             });
+
+            // Put public URL in storage actually
+            // const {data, error} = await supabase.storage.from('avatars').download(`${character.avatarPath}`);
+
+            return character;
         }),
 
     // Get all characters that exist in the database
@@ -116,7 +121,9 @@ export const characterRouter = createTRPCRouter({
                 }
             });
 
-            return BASE_PROMPT + racePrompt?.prompt + agePrompt?.prompt + genderPrompt?.prompt;
+            if (racePrompt && agePrompt && genderPrompt){
+                return BASE_PROMPT + racePrompt?.prompt + agePrompt?.prompt + genderPrompt?.prompt;
+            }
 
         } catch (error) {
             console.error("Error getting character prompts:", error);
@@ -138,11 +145,17 @@ export const characterRouter = createTRPCRouter({
         .mutation(async ({ctx, input}) => {
             try {
                 console.log("Creating character in the database...");
+                let filePath = "";
 
-                const generatedImage = await generateImage(input.prompts) ?? "https://ih1.redbubble.net/image.2579899118.1732/st,small,507x507-pad,600x600,f8f8f8.jpg";
-                const fileBody = await downloadImage(generatedImage);
-                const filePath = `${input.characterName}.jpg`
-                await uploadToStorage(filePath, fileBody);
+                try {
+                    const generatedImage = await generateImage(input.prompts) ?? "https://ih1.redbubble.net/image.2579899118.1732/st,small,507x507-pad,600x600,f8f8f8.jpg";
+                    const fileBody = await downloadImage(generatedImage);
+                    filePath = `${input.characterName}.jpg`
+                    await uploadToStorage(filePath, fileBody);
+                } catch (error) {
+                    console.log("Could not save image to storage, using default image instead.")
+                    filePath = "https://ih1.redbubble.net/image.2579899118.1732/st,small,507x507-pad,600x600,f8f8f8.jpg"
+                }
 
                 const response = await ctx.prisma.character.create({
                     data: {

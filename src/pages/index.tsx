@@ -1,11 +1,11 @@
 "use client"
 
-import {api} from "~/utils/api";
-import React, { type FormEventHandler } from "react";
+import { api } from "~/utils/api";
+import React, { useEffect } from "react";
 import Layout from "../components/Layout";
-import {ProgressBar} from "~/components/ui/progress";
+import { ProgressBar } from "~/components/ui/progress";
 import { zodResolver } from "@hookform/resolvers/zod";
-import {SubmitHandler, useForm} from "react-hook-form";
+import { SubmitHandler, useForm } from "react-hook-form";
 import * as z from "zod";
 import { Input } from "~/components/ui/input";
 import { Button } from "~/components/ui/button";
@@ -24,19 +24,8 @@ import {
     SelectTrigger,
     SelectValue,
 } from "~/components/ui/select";
-import type { RouterOutputs } from "~/utils/api";
-import { ChevronRight, Eraser } from "lucide-react";
+import { ChevronRight } from "lucide-react";
 import HorizontalSelector from "~/components/ui/HorizontalSelect";
-
-// Type definitions
-type getAllRacesOutputType = RouterOutputs["character"]["getAllRaces"];
-type getAllGendersOutputType = RouterOutputs["character"]["getAllGenders"];
-type getAllAgesOutputType = RouterOutputs["character"]["getAllAges"];
-type CharacterFormPropsType = {
-    allRaces: getAllRacesOutputType;
-    allGenders: getAllGendersOutputType;
-    allAges: getAllAgesOutputType;
-};
 
 const FormSchema = z.object({
     characterName: z
@@ -68,7 +57,7 @@ export default function Home() {
 
     // Create a new character
     const {
-        mutate: createCharacter,
+        mutateAsync: createCharacter,
         data: createdCharacterId,
         isLoading: createCharacterIsLoading,
         isSuccess: createCharacterIsSuccess,
@@ -76,7 +65,7 @@ export default function Home() {
 
     // Fetch character prompts from database
     const {
-        mutate: getPrompts,
+        mutateAsync: getPrompts,
         data: prompts
     } = api.character.getPrompts.useMutation();
 
@@ -96,14 +85,55 @@ export default function Home() {
         isLoading: getAllGendersIsLoading
     } = api.character.getAllGenders.useQuery();
 
+    // Remove useless hooks above as needed
+    const util = api.useContext();
+    const [characterID, setCharacterID] = React.useState("");
+
+    // Use type inference here
+    const [character, setCharacter] = React.useState({
+        id: "",
+        characterName: "",
+        raceName: "",
+        genderName: "",
+        ageName: "",
+        avatarPath: ""
+    });
+
+    // This will run every frame, if what's inside the dependency array is changed
+    // If array is empty, will only run on first page load. If array is undefined, will run every frame always.
+    useEffect(() => {
+        if (characterID === "") {
+            return;
+        }
+        util.character.getCharacterById.fetch({ characterId: characterID }).then
+            ((retrievedCharacter) => {
+                if (retrievedCharacter === null) {
+                    return;
+                }
+                setCharacter({
+                    ...character,
+                    id: retrievedCharacter.id,
+                    characterName: retrievedCharacter.characterName,
+                    raceName: retrievedCharacter.raceName,
+                    genderName: retrievedCharacter.genderName,
+                    ageName: retrievedCharacter.ageName,
+                    avatarPath: retrievedCharacter.avatarPath ?? "",
+                });
+                console.log("Character retrieved: ", retrievedCharacter);
+            }).catch((error) => {
+                console.error("Error retrieving character: ", error);
+        });
+
+    }, [characterID]);
+
     if (getAllRacesIsLoading || allRaces === undefined ||
         getAllAgesIsLoading || allAges === undefined ||
         getAllGendersIsLoading || allGenders === undefined) {
         return (
             <Layout>
                 <>Welcome, page is loading...</>
-                <br/>
-                <ProgressBar durationInSeconds={3}/>
+                <br />
+                <ProgressBar durationInSeconds={3} />
             </Layout>
         )
     }
@@ -112,18 +142,19 @@ export default function Home() {
         return (
             <Layout>
                 <>Character creation in progress...</>
-                <ProgressBar durationInSeconds={20}/>
+                <ProgressBar durationInSeconds={35} />
             </Layout>
         )
     }
 
-    if (createCharacterIsSuccess && createdCharacterId !== undefined) {
+    if (createCharacterIsSuccess && character !== undefined) {
         return (
             <Layout>
                 <p>
                     Character created!
-                    <br/>
-                    Character ID: {createdCharacterId}
+                    <br />
+                    Character ID: {character.id}
+                    <br />
                 </p>
             </Layout>
         )
@@ -147,30 +178,31 @@ export default function Home() {
         </SelectItem>
     ));
 
-    const onSubmit: SubmitHandler<z.infer<typeof FormSchema>> = (data) => {
-
+    const onSubmit: SubmitHandler<z.infer<typeof FormSchema>> = async (data) => {
         console.log("Form submitted with data: ", data);
-        getPrompts({
-            raceName: data.raceName,
-            ageName: data.ageName,
-            genderName: data.genderName,
-        });
 
-        if (prompts) {
+        try {
+            const prompts = await getPrompts({
+                raceName: data.raceName,
+                ageName: data.ageName,
+                genderName: data.genderName,
+            });
+            if (prompts === undefined) {
+                console.error("Error fetching prompts from database.");
+                return;
+            }
             console.log("Prompts for character: ", prompts);
-            createCharacter({
+            const createdCharacterID = await createCharacter({
                 characterName: data.characterName,
                 raceName: data.raceName,
                 genderName: data.genderName,
                 ageName: data.ageName,
-                prompts: prompts
+                prompts: prompts,
             });
-        } else {
-            throw new Error("Error: could not fetch character prompts.");
-        }
+            setCharacterID(createdCharacterID);
 
-        if (createdCharacterId) {
-            console.log("Created character ID: ", createdCharacterId);
+        } catch (error) {
+            console.error("Error handling form submission:", error);
         }
     };
 
@@ -186,7 +218,7 @@ export default function Home() {
                             name="characterName"
                             render={({ field }) => (
                                 <FormItem className="mb-4">
-                                    <Input onChange={field.onChange} placeholder="Enter a name for your character"/>
+                                    <Input onChange={field.onChange} placeholder="Enter a name for your character" />
                                     <FormMessage />
                                 </FormItem>
                             )}
@@ -195,7 +227,7 @@ export default function Home() {
                         {/* RACE CONTAINER */}
                         <HorizontalSelector items={raceOptions} onValueChange={(item) => {
                             formHook.setValue("raceName", item);
-                        }}/>
+                        }} />
 
                         {/* GENDER AND AGE CONTAINER */}
                         <div className="flex justify-between">

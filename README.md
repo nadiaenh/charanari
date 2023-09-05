@@ -68,9 +68,16 @@ Uses [Prisma with Supabase](https://www.prisma.io/docs/guides/database/supabase)
 - [X] ~~Set up Clerk authentication~~ rolled this back for now due to issues
 - [X] Create horizontal visual selector component
 - [X] Prompt engineering for character images
-- [ ] Set up getCharacterById -> display it in page
-- [ ] Customize the sign-in page
-- [ ] Set up getCharacterById -> display it in page
+- [X] Set up getCharacterById -> display it in page
+- [X] Enable basic dark mode
+
+![](/public/screenshots/week2-ui.gif)
+
+**3️⃣ September 4 to 10:**
+- [ ] Have different pages for home, character creation, and character profile
+- [ ] Store image permanent URLs in the database instead of the file path
+- [ ] Remove unnecessary React hooks
+- [ ] Restore Clerk auth and customize the sign-in page
 
 **👵🏽 Future, future work:**
 
