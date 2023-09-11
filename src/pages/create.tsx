@@ -58,15 +58,13 @@ export default function Home() {
     // Create a new character
     const {
         mutateAsync: createCharacter,
-        data: createdCharacterId,
         isLoading: createCharacterIsLoading,
         isSuccess: createCharacterIsSuccess,
     } = api.character.createCharacter.useMutation();
 
     // Fetch character prompts from database
     const {
-        mutateAsync: getPrompts,
-        data: prompts
+        mutateAsync: getPrompts
     } = api.character.getPrompts.useMutation();
 
     // Fetch race, age, and gender data from database
@@ -166,12 +164,6 @@ export default function Home() {
         image: race.imagePath.replace(/^~\//, "https://raw.githubusercontent.com/nadiaenh/charanari/main/")
     }));
 
-    const genderOptions = allGenders.map((gender) => (
-        <SelectItem key={gender.id} value={gender.name}>
-            {gender.name}
-        </SelectItem>
-    ));
-
     const ageOptions = allAges.map((age) => (
         <SelectItem key={age.id} value={age.name}>
             {age.name}
@@ -236,17 +228,35 @@ export default function Home() {
                                 name="genderName"
                                 render={({ field }) => (
                                     <FormItem>
-                                        <Select onValueChange={field.onChange} defaultValue={field.value}>
-                                            <FormControl>
-                                                <SelectTrigger>
-                                                    <SelectValue placeholder="Pick an essence" />
-                                                </SelectTrigger>
-                                            </FormControl>
-                                            <SelectContent>
-                                                {genderOptions}
-                                            </SelectContent>
-                                        </Select>
-                                        <FormMessage />
+                                        <div className="flex justify-between">
+                                            <Button
+                                                type="button"
+                                                className={`${
+                                                    field.value === "Feminine" ? "bg-blue-500" : "bg-gray-300"
+                                                } hover:bg-blue-600 text-white font-semibold px-4 py-2 rounded`}
+                                                onClick={() => formHook.setValue("genderName", "Feminine")}
+                                            >
+                                                F
+                                            </Button>
+                                            <Button
+                                                type="button"
+                                                className={`${
+                                                    field.value === "Masculine" ? "bg-blue-500" : "bg-gray-300"
+                                                } hover:bg-blue-600 text-white font-semibold px-4 py-2 rounded`}
+                                                onClick={() => formHook.setValue("genderName", "Masculine")}
+                                            >
+                                                M
+                                            </Button>
+                                            <Button
+                                                type="button"
+                                                className={`${
+                                                    field.value === "Essenceless" ? "bg-blue-500" : "bg-gray-300"
+                                                } hover:bg-blue-600 text-white font-semibold px-4 py-2 rounded`}
+                                                onClick={() => formHook.setValue("genderName", "Essenceless")}
+                                            >
+                                                E
+                                            </Button>
+                                        </div>
                                     </FormItem>
                                 )}
                             />
