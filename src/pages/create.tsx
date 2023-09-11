@@ -164,12 +164,6 @@ export default function Home() {
         image: race.imagePath.replace(/^~\//, "https://raw.githubusercontent.com/nadiaenh/charanari/main/")
     }));
 
-    const ageOptions = allAges.map((age) => (
-        <SelectItem key={age.id} value={age.name}>
-            {age.name}
-        </SelectItem>
-    ));
-
     const onSubmit: SubmitHandler<z.infer<typeof FormSchema>> = async (data) => {
         console.log("Form submitted with data: ", data);
 
@@ -266,17 +260,35 @@ export default function Home() {
                                 name="ageName"
                                 render={({ field }) => (
                                     <FormItem>
-                                        <Select onValueChange={field.onChange} defaultValue={field.value}>
-                                            <FormControl>
-                                                <SelectTrigger>
-                                                    <SelectValue placeholder="Pick a life stage" />
-                                                </SelectTrigger>
-                                            </FormControl>
-                                            <SelectContent>
-                                                {ageOptions}
-                                            </SelectContent>
-                                        </Select>
-                                        <FormMessage />
+                                        <div className="flex justify-between">
+                                            <Button
+                                                type="button"
+                                                className={`${
+                                                    field.value === "Ephemeral Youth" ? "bg-blue-500" : "bg-gray-300"
+                                                } hover:bg-blue-600 text-white font-semibold px-4 py-2 rounded`}
+                                                onClick={() => formHook.setValue("ageName", "Ephemeral Youth")}
+                                            >
+                                                Young
+                                            </Button>
+                                            <Button
+                                                type="button"
+                                                className={`${
+                                                    field.value === "Enigma of Ages" ? "bg-blue-500" : "bg-gray-300"
+                                                } hover:bg-blue-600 text-white font-semibold px-4 py-2 rounded`}
+                                                onClick={() => formHook.setValue("ageName", "Enigma of Ages")}
+                                            >
+                                                Mature
+                                            </Button>
+                                            <Button
+                                                type="button"
+                                                className={`${
+                                                    field.value === "Echos of Eternity" ? "bg-blue-500" : "bg-gray-300"
+                                                } hover:bg-blue-600 text-white font-semibold px-4 py-2 rounded`}
+                                                onClick={() => formHook.setValue("ageName", "Echos of Eternity")}
+                                            >
+                                                Elder
+                                            </Button>
+                                        </div>
                                     </FormItem>
                                 )}
                             />
