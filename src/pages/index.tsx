@@ -5,6 +5,7 @@ import Layout from "../components/Layout";
 import { Button } from "~/components/ui/button"
 import { ArrowRight, User } from "lucide-react";
 import Image from "next/image";
+import Link from "next/link";
 
 export default function Home() {
 
@@ -30,12 +31,12 @@ export default function Home() {
                             Sign In
                         </Button>
 
-                        <a href="/create">
+                        <Link href="/create">
                             <Button type="button" className="flex items-center">
                                 Create Your Character
                                 <ArrowRight size={24} className="ml-2" />
                             </Button>
-                        </a>
+                        </Link>
                     </div>
                 </div>
             </div>
