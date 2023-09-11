@@ -73,16 +73,6 @@ export default function Home() {
         isLoading: getAllRacesIsLoading
     } = api.character.getAllRaces.useQuery();
 
-    const {
-        data: allAges,
-        isLoading: getAllAgesIsLoading
-    } = api.character.getAllAges.useQuery();
-
-    const {
-        data: allGenders,
-        isLoading: getAllGendersIsLoading
-    } = api.character.getAllGenders.useQuery();
-
     // Remove useless hooks above as needed
     const util = api.useContext();
     const [characterID, setCharacterID] = React.useState("");
@@ -124,9 +114,7 @@ export default function Home() {
 
     }, [characterID]);
 
-    if (getAllRacesIsLoading || allRaces === undefined ||
-        getAllAgesIsLoading || allAges === undefined ||
-        getAllGendersIsLoading || allGenders === undefined) {
+    if (getAllRacesIsLoading || allRaces === undefined) {
         return (
             <Layout>
                 <>Welcome, page is loading...</>
@@ -140,7 +128,7 @@ export default function Home() {
         return (
             <Layout>
                 <>Character creation in progress...</>
-                <ProgressBar durationInSeconds={35} />
+                <ProgressBar durationInSeconds={20} />
             </Layout>
         )
     }
@@ -192,6 +180,12 @@ export default function Home() {
         }
     };
 
+    function isSelected(fieldValue: string, buttonValue: string) {
+        return `${
+            fieldValue === buttonValue ? "bg-gray-200" : ""
+        }`;
+    }
+
     return (
         <Layout>
             <div className="bg-white dark:bg-gray-700 p-8 shadow-2xl rounded-3xl flex justify-center items-center">
@@ -225,27 +219,24 @@ export default function Home() {
                                         <div className="flex justify-between">
                                             <Button
                                                 type="button"
-                                                className={`${
-                                                    field.value === "Feminine" ? "bg-blue-500" : "bg-gray-300"
-                                                } hover:bg-blue-600 text-white font-semibold px-4 py-2 rounded`}
+                                                variant="ghost"
+                                                className={isSelected(field.value, "Feminine")}
                                                 onClick={() => formHook.setValue("genderName", "Feminine")}
                                             >
                                                 F
                                             </Button>
                                             <Button
                                                 type="button"
-                                                className={`${
-                                                    field.value === "Masculine" ? "bg-blue-500" : "bg-gray-300"
-                                                } hover:bg-blue-600 text-white font-semibold px-4 py-2 rounded`}
+                                                variant="ghost"
+                                                className={isSelected(field.value, "Masculine")}
                                                 onClick={() => formHook.setValue("genderName", "Masculine")}
                                             >
                                                 M
                                             </Button>
                                             <Button
                                                 type="button"
-                                                className={`${
-                                                    field.value === "Essenceless" ? "bg-blue-500" : "bg-gray-300"
-                                                } hover:bg-blue-600 text-white font-semibold px-4 py-2 rounded`}
+                                                variant="ghost"
+                                                className={isSelected(field.value, "Essenceless")}
                                                 onClick={() => formHook.setValue("genderName", "Essenceless")}
                                             >
                                                 E
@@ -263,28 +254,25 @@ export default function Home() {
                                         <div className="flex justify-between">
                                             <Button
                                                 type="button"
-                                                className={`${
-                                                    field.value === "Ephemeral Youth" ? "bg-blue-500" : "bg-gray-300"
-                                                } hover:bg-blue-600 text-white font-semibold px-4 py-2 rounded`}
+                                                variant="ghost"
+                                                className={isSelected(field.value, "Ephemeral Youth")}
                                                 onClick={() => formHook.setValue("ageName", "Ephemeral Youth")}
                                             >
                                                 Young
                                             </Button>
                                             <Button
                                                 type="button"
-                                                className={`${
-                                                    field.value === "Enigma of Ages" ? "bg-blue-500" : "bg-gray-300"
-                                                } hover:bg-blue-600 text-white font-semibold px-4 py-2 rounded`}
+                                                variant="ghost"
+                                                className={isSelected(field.value, "Enigma of Ages")}
                                                 onClick={() => formHook.setValue("ageName", "Enigma of Ages")}
                                             >
                                                 Mature
                                             </Button>
                                             <Button
                                                 type="button"
-                                                className={`${
-                                                    field.value === "Echos of Eternity" ? "bg-blue-500" : "bg-gray-300"
-                                                } hover:bg-blue-600 text-white font-semibold px-4 py-2 rounded`}
-                                                onClick={() => formHook.setValue("ageName", "Echos of Eternity")}
+                                                variant="ghost"
+                                                className={isSelected(field.value, "Echoes of Eternity")}
+                                                onClick={() => formHook.setValue("ageName", "Echoes of Eternity")}
                                             >
                                                 Elder
                                             </Button>
