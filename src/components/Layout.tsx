@@ -17,14 +17,11 @@ interface LayoutProps {
     children: ReactNode;
 }
 
-const Layout: React.FC<LayoutProps> = ({children}) => {
+const Layout: React.FC<LayoutProps> = ({ children }) => {
     return (
         <ThemeProvider attribute="class" defaultTheme="system" enableSystem>
-            <div className="flex flex-col min-h-screen relative bg-pink-50 dark:bg-gray-900">
-                <header className="w-full flex justify-between items-center p-4 absolute top-0 right-0">
-
-                    <h1 className="text-xl">Create Character Screen</h1>
-
+            <div className="flex flex-col min-h-screen bg-pink-50 dark:bg-gray-900">
+                <header className="w-full flex justify-end items-center p-4">
                     {/* LIGHT/DARK MODE TOGGLE */}
                     <ModeToggle />
                 </header>
@@ -34,8 +31,8 @@ const Layout: React.FC<LayoutProps> = ({children}) => {
                     <Analytics />
                 </main>
 
-                <footer className="p-4 absolute bottom-0 left-0 right-0 flex justify-center">
-                    <p>© {new Date().getFullYear()} Charanari</p>
+                <footer className="p-4 flex justify-center">
+                    <p>© {new Date().getFullYear()} <a href="https://github.com/nadiaenh/charanari"> Built with ❤️ and 🪄</a></p>
                 </footer>
             </div>
         </ThemeProvider>

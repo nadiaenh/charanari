@@ -1,11 +1,11 @@
 # ✨ CharaNari ✨
 
-*(Temporary name until I find something better)*  
+*(Work in progress & temporary name)*  
 https://www.charanari.me/  
 
-Create your cute fantasy character, chat with your friends' characters, and build the world's lore!  
+Create your cute fantasy character, chat with your friends' characters, and build the world's lore!
 
-![](/public/screenshots/week2-ui.gif)
+![](/public/screenshots/week3-ui.gif)
 
 ### 📝 App
 
@@ -65,6 +65,14 @@ Uses [Prisma with Supabase](https://www.prisma.io/docs/guides/database/supabase)
 `npx prisma studio` to edit data in a nice UI.   
 `npx prisma db seed` to populate the tables with starter data
 
+### 🤖 AI 
+
+Using Replicate.ai API for images mostly.
+
+[anything-v3-better-vae](https://replicate.com/cjwbw/anything-v3-better-vae) for generating character images.  
+[real-esrgan](https://replicate.com/cjwbw/real-esrgan) for upscaling low quality images.  
+[RunwayML](https://app.runwayml.com/login) for expanding cropped or incomplete images.  
+
 ### 📓 Progress journal
 
 **1️⃣ August 21 to 27:**
@@ -94,7 +102,12 @@ Uses [Prisma with Supabase](https://www.prisma.io/docs/guides/database/supabase)
 ![](/public/screenshots/week2-ui.gif)
 
 **3️⃣ September 4 to 10:**
-- [ ] Have different pages for home, character creation, and character profile
+- [X] Have different pages for home, character creation, and character profile
+- [X] Set up home page
+
+![](/public/screenshots/week3-ui.gif)
+
+**4️⃣ September 11 to 17:**
 - [ ] Store image permanent URLs in the database instead of the file path
 - [ ] Remove unnecessary React hooks
 - [ ] Restore Clerk auth and customize the sign-in page
