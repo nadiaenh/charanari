@@ -3,7 +3,9 @@
 *(Temporary name until I find something better)*  
 https://www.charanari.me/  
 
-Create your cute fantasy character, chat with your friends' characters, and build the world's lore!
+Create your cute fantasy character, chat with your friends' characters, and build the world's lore!  
+
+![](/public/screenshots/week2-ui.gif)
 
 ### 📝 App
 
@@ -11,8 +13,7 @@ Created with [create-t3-app](https://create.t3.gg/) and deployed
 using [Vercel with T3](https://create.t3.gg/en/deployment/vercel).
 
 `npm run dev` will start the server locally.  
-`git push origin main` will deploy to Vercel.  
-
+`git push origin main` will deploy to Vercel.
 
 ![diagram](https://github.com/nadiaenh/supabase-game/blob/main/public/components_diagram.png)
 
@@ -24,6 +25,25 @@ inputs.
 `./src/pages/` contains the website pages - each `.tsx` file becomes a route in the App.  
 `./src/styles/` contains the CSS stylesheets.  
 `./src/components/` should contain the React UI components.
+
+### 🎨 Design
+Developed using Figma, [Dribble](https://dribbble.com/shots/popular), and [RealtimeColours](https://realtimecolors.com/?colors=333333-F9F9F9-87CEEB-f0ece1-ba3b50).  
+  
+Light mode:  
+<span style="background-color:#F9F9F9; color:#F9F9F9;">■■■■■</span>
+<span style="background-color:#333333; color:#333333;">■■■■■</span>
+<span style="background-color:#87CEEB; color:#87CEEB;">■■■■■</span>
+<span style="background-color:#f0ece1; color:#f0ece1;">■■■■■</span>
+<span style="background-color:#ba3b50; color:#ba3b50;">■■■■■</span>
+
+Dark mode:  
+<span style="background-color:#333333; color:#333333;">■■■■■</span>
+<span style="background-color:#F9F9F9; color:#F9F9F9;">■■■■■</span>
+<span style="background-color:#87CEEB; color:#87CEEB;">■■■■■</span>
+<span style="background-color:#262113; color:#262113;">■■■■■</span>
+<span style="background-color:#e4aab4; color:#e4aab4;">■■■■■</span>  
+
+Fonts: Concert One, Ubuntu Sans
 
 ### ⚙️ Backend
 
