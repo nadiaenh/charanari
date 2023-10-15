@@ -17,13 +17,6 @@ import {
     FormLabel,
     FormMessage,
 } from "~/components/ui/form";
-import {
-    Select,
-    SelectContent,
-    SelectItem,
-    SelectTrigger,
-    SelectValue,
-} from "~/components/ui/select";
 import { ChevronRight } from "lucide-react";
 import HorizontalSelector from "~/components/ui/HorizontalSelect";
 
@@ -141,6 +134,7 @@ export default function Home() {
                     <br />
                     Character ID: {character.id}
                     <br />
+                    <img src={character.avatarPath} />
                 </p>
             </Layout>
         )

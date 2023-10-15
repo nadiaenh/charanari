@@ -48,11 +48,13 @@ async function uploadToStorage(filePath: string, fileBody: Buffer): Promise<stri
         });
         console.log("Image uploaded to Supabase storage. Response : ", uploadResponse, " Error :", uploadError);
 
-        // Get public URL of image
-        const {data: publicURL, error: publicURLError} = supabase.storage.from('avatars').getPublicUrl(uploadResponse?.path);
-        console.log("Public URL of image: ", publicURL, " Error: ", publicURLError);
+        const imagePath = uploadResponse?.path ?? "";
 
-        return publicURL.publicUrl ?? "https://ih1.redbubble.net/image.2579899118.1732/st,small,507x507-pad,600x600,f8f8f8.jpg";
+        // Get public URL of image
+        const {data} = supabase.storage.from('avatars').getPublicUrl(imagePath);
+        console.log("Public URL of image: ", data);
+
+        return data.publicUrl ?? "https://ih1.redbubble.net/image.2579899118.1732/st,small,507x507-pad,600x600,f8f8f8.jpg";
 
     } catch (error) {
         console.error("Error uploading image to Supabase storage:", error);
@@ -69,16 +71,11 @@ export const characterRouter = createTRPCRouter({
             })
         )
         .query(async ({ctx, input}) => {
-            const character = ctx.prisma.character.findUnique({
+            return ctx.prisma.character.findUnique({
                 where: {
                     id: input.characterId,
                 },
             });
-
-            // Put public URL in storage actually
-            // const {data, error} = await supabase.storage.from('avatars').download(`${character.avatarPath}`);
-
-            return character;
         }),
 
     // Get all characters that exist in the database
