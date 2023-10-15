@@ -3,9 +3,9 @@
 *(Work in progress & temporary name)*  
 https://www.charanari.me/  
 
-Create your cute fantasy character, chat with your friends' characters, and build the world's lore!
+Create a cute fantasy character!
 
-![](/public/screenshots/week3-ui.gif)
+![](/public/screenshots/week8-ui.gif)
 
 ### 📝 App
 
@@ -50,7 +50,7 @@ Procreate for Pixel Art
 
 ### ⚙️ Backend
 
-Uses [TypeScript](https://www.typescriptlang.org/) and [tRPC](https://trpc.io/).  
+[TypeScript](https://www.typescriptlang.org/) and [tRPC](https://trpc.io/).  
 
 ```
 ./src/env.mjs          # environment variables
@@ -72,8 +72,7 @@ npx prisma db seed      # to populate the tables with starter data
 
 ### 📓 Progress journal
 
-<details>
-  <summary> 1️⃣ August 21 to 27:</summary>
+**August 21 to 27:**  
 - [X] Create Race etc. schemas and get form options from there
 - [X] Update the UI with Tailwind components or ShadcnUI
 - [X] Make SelectRace actually update the state - see how test.tsx implements SubmitButton
@@ -83,11 +82,8 @@ npx prisma db seed      # to populate the tables with starter data
 - [X] Switched over to ReplicateAI instead of OpenAI
 
 ![](/public/screenshots/week1-ui.gif)
-</details>
 
-<details>
-<summary>2️⃣ August 28 to September 3:</summary>
-
+**August 28 to September 3:**
 - [X] Add more form fields + update database schema accordingly
 - [X] Improve the UI
 - [X] Set up (temporary?) domain name https://www.charanari.me/  
@@ -99,34 +95,15 @@ npx prisma db seed      # to populate the tables with starter data
 - [X] Enable basic dark mode
 
 ![](/public/screenshots/week2-ui.gif)
-</details>
 
-<details>
-<summary>3️⃣ September 4 to 10:</summary>
+**September 4 to 10:**
 - [X] Have different pages for home, character creation, and character profile
 - [X] Set up home page
 
 ![](/public/screenshots/week3-ui.gif)
-</details>
 
-<details>
-<summary>4️⃣ September 11 to 17:</summary>  
-🙈  
-</details>
+**October 9 to 15:**
+- [X] Store image permanent URLs in the database instead of the file path
+- [X] Display character image when a new character is created
 
-<details>
-<summary>5️⃣ September 18 to 24:</summary>  
-🙈  
-</details>
-
-<details>
-<summary>6️⃣ September 25 to October 1:</summary>  
-🙈  
-</details>
-
-<details>
-<summary>7️⃣ October 2 to 8:</summary>  
-- [ ] Store image permanent URLs in the database instead of the file path
-- [ ] Design pixel art isometric cozy scene
-</details>
-
+![](/public/screenshots/week8-ui.gif)
