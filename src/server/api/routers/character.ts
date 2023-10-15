@@ -39,13 +39,21 @@ async function downloadImage(imageURL: string): Promise<Buffer> {
     }
 }
 
-async function uploadToStorage(filePath: string, fileBody: Buffer): Promise<void> {
+async function uploadToStorage(filePath: string, fileBody: Buffer): Promise<string> {
     try {
-        await supabase.storage.from('avatars').upload(filePath, fileBody, {
-            cacheControl: '3600',
+
+        // Upload image to Supabase storage
+        const {data: uploadResponse, error: uploadError} = await supabase.storage.from('avatars').upload(filePath, fileBody, {
             upsert: true
         });
-        console.log("Image uploaded to Supabase storage.");
+        console.log("Image uploaded to Supabase storage. Response : ", uploadResponse, " Error :", uploadError);
+
+        // Get public URL of image
+        const {data: publicURL, error: publicURLError} = supabase.storage.from('avatars').getPublicUrl(uploadResponse?.path);
+        console.log("Public URL of image: ", publicURL, " Error: ", publicURLError);
+
+        return publicURL.publicUrl ?? "https://ih1.redbubble.net/image.2579899118.1732/st,small,507x507-pad,600x600,f8f8f8.jpg";
+
     } catch (error) {
         console.error("Error uploading image to Supabase storage:", error);
         throw error;
@@ -146,15 +154,16 @@ export const characterRouter = createTRPCRouter({
             try {
                 console.log("Creating character in the database...");
                 let filePath = "";
+                let avatarPath = "";
 
                 try {
                     const generatedImage = await generateImage(input.prompts) ?? "https://ih1.redbubble.net/image.2579899118.1732/st,small,507x507-pad,600x600,f8f8f8.jpg";
                     const fileBody = await downloadImage(generatedImage);
                     filePath = `${input.characterName}.jpg`
-                    await uploadToStorage(filePath, fileBody);
+                    avatarPath = await uploadToStorage(filePath, fileBody);
                 } catch (error) {
                     console.log("Could not save image to storage, using default image instead.")
-                    filePath = "https://ih1.redbubble.net/image.2579899118.1732/st,small,507x507-pad,600x600,f8f8f8.jpg"
+                    avatarPath = "https://ih1.redbubble.net/image.2579899118.1732/st,small,507x507-pad,600x600,f8f8f8.jpg"
                 }
 
                 const response = await ctx.prisma.character.create({
@@ -163,7 +172,7 @@ export const characterRouter = createTRPCRouter({
                         raceName: input.raceName,
                         genderName: input.genderName,
                         ageName: input.ageName,
-                        avatarPath: filePath
+                        avatarPath: avatarPath
                     },
                 });
 
