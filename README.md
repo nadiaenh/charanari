@@ -1,7 +1,7 @@
 # ✨ CharaNari ✨
 
-*(Work in progress & temporary name)*  
-https://www.charanari.me/  
+*(Work in progress & not currently hosted)*  
+~~https://www.charanari.me/~~  
 
 Create a cute fantasy character!
 
