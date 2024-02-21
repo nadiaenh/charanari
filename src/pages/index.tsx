@@ -31,12 +31,12 @@ export default function Home() {
                             Sign In
                         </Button>
 
-                        <Link href="/create">
-                            <Button type="button" className="flex items-center" disabled>
-                                Create Your Character
-                                <ArrowRight size={24} className="ml-2" />
-                            </Button>
-                        </Link>
+                        {/*<Link href="/create">*/}
+                        <Button type="button" className="flex items-center" disabled>
+                            Create Your Character
+                            <ArrowRight size={24} className="ml-2" />
+                        </Button>
+                        {/*</Link>*/}
                     </div>
                 </div>
             </div>
