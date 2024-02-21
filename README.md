@@ -1,6 +1,4 @@
-# ✨ CharaNari ✨
-
-*(Work in progress & not currently hosted)*  
+# ✨ CharaNari (currently offline) ✨
 ~~https://www.charanari.me/~~  
 
 Create a cute fantasy character!
