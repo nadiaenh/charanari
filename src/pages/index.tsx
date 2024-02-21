@@ -32,7 +32,7 @@ export default function Home() {
                         </Button>
 
                         <Link href="/create">
-                            <Button type="button" className="flex items-center">
+                            <Button type="button" className="flex items-center" disabled>
                                 Create Your Character
                                 <ArrowRight size={24} className="ml-2" />
                             </Button>
